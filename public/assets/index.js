@@ -57800,7 +57800,7 @@ Please use another name.` : (0, _utils.formatMuiErrorMessage)(18));
   // src/js/App.js
   var import_react16 = __toESM(require_react(), 1);
 
-  // src/js/Appbar.js
+  // src/js/Header.js
   var import_react13 = __toESM(require_react(), 1);
 
   // node_modules/@mui/material/index.js
@@ -93408,11 +93408,33 @@ To suppress this warning, you need to explicitly provide the \`palette.${key}Cha
   var PAGES = ["Home", "About", "Logout"];
   var DrawerComp = () => {
     const [isOpen, setIsOpen] = (0, import_react12.useState)(false);
-    return /* @__PURE__ */ import_react12.default.createElement(import_react12.default.Fragment, null, /* @__PURE__ */ import_react12.default.createElement(Drawer_default, { open: isOpen, onClose: () => setIsOpen(false) }, /* @__PURE__ */ import_react12.default.createElement(List_default, null, PAGES.map((page, index) => /* @__PURE__ */ import_react12.default.createElement(ListItemButton_default, null, /* @__PURE__ */ import_react12.default.createElement(ListItemText_default, { key: index }, page))))), /* @__PURE__ */ import_react12.default.createElement(IconButton_default, { sx: { color: "#bb9981" }, onClick: () => setIsOpen(!isOpen) }, "---"));
+    const navigate = useNavigate();
+    const [tab, setTab] = (0, import_react12.useState)();
+    const handleChange = (tab2) => {
+      setTab(tab2);
+      if (tab2 == 0) {
+        console.log("Going home");
+        navigate("/");
+      } else if (tab2 == 1) {
+        console.log("Going about");
+        navigate("/about");
+      } else if (tab2 == 2) {
+        console.log("Going logout");
+      }
+    };
+    return /* @__PURE__ */ import_react12.default.createElement(import_react12.default.Fragment, null, /* @__PURE__ */ import_react12.default.createElement(Drawer_default, { open: isOpen, onClose: () => setIsOpen(false) }, /* @__PURE__ */ import_react12.default.createElement(List_default, null, PAGES.map((page, index) => /* @__PURE__ */ import_react12.default.createElement(
+      ListItemButton_default,
+      {
+        onClick: () => {
+          handleChange(index);
+        }
+      },
+      /* @__PURE__ */ import_react12.default.createElement(ListItemText_default, { key: index }, page)
+    )))), /* @__PURE__ */ import_react12.default.createElement(IconButton_default, { sx: { color: "#bb9981" }, onClick: () => setIsOpen(!isOpen) }, "---"));
   };
   var DrawerComp_default = DrawerComp;
 
-  // src/js/Appbar.js
+  // src/js/Header.js
   var PAGES2 = ["Home", "About", "Logout"];
   function Appbar() {
     const theme = useTheme3();
@@ -93450,12 +93472,12 @@ To suppress this warning, you need to explicitly provide the \`palette.${key}Cha
       )))
     ));
   }
-  var Appbar_default = Appbar;
+  var Header_default = Appbar;
 
-  // src/js/Homepage.js
+  // src/js/admin/Homepage.js
   var import_react14 = __toESM(require_react(), 1);
   function Homepage() {
-    return /* @__PURE__ */ import_react14.default.createElement("div", null, "Homepage");
+    return /* @__PURE__ */ import_react14.default.createElement(import_react14.default.Fragment, null, /* @__PURE__ */ import_react14.default.createElement("div", { className: "container" }, /* @__PURE__ */ import_react14.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react14.default.createElement("div", { className: "col-md-2", style: { border: "1px solid #534340", borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" } }, /* @__PURE__ */ import_react14.default.createElement("h1", null, " Admin "), " ", /* @__PURE__ */ import_react14.default.createElement("br", null), /* @__PURE__ */ import_react14.default.createElement("a", { href: "#", style: { textDecoration: "none", color: "#534340", fontSize: "15px" } }, " Register Employee "), " ", /* @__PURE__ */ import_react14.default.createElement("hr", null), /* @__PURE__ */ import_react14.default.createElement("a", { href: "#", style: { textDecoration: "none", color: "#534340", fontSize: "15px" } }, " View Employee "), " ", /* @__PURE__ */ import_react14.default.createElement("hr", null), /* @__PURE__ */ import_react14.default.createElement("a", { href: "#", style: { textDecoration: "none", color: "#534340", fontSize: "15px" } }, " Update Employee Information "), " ", /* @__PURE__ */ import_react14.default.createElement("hr", null), /* @__PURE__ */ import_react14.default.createElement("a", { href: "#", style: { textDecoration: "none", color: "#534340", fontSize: "15px" } }, " Delete Employee Information "), " ", /* @__PURE__ */ import_react14.default.createElement("hr", null)), /* @__PURE__ */ import_react14.default.createElement("div", { className: "col-md-9", style: { border: "1px solid #534340", borderTopRightRadius: "10px", borderBottomRightRadius: "10px" } }, " ", /* @__PURE__ */ import_react14.default.createElement("br", null), /* @__PURE__ */ import_react14.default.createElement("div", { className: "row", style: { marginLeft: "-6vh" } }, /* @__PURE__ */ import_react14.default.createElement("div", { className: "col-sm-4" }, /* @__PURE__ */ import_react14.default.createElement(Box_default, { sx: { display: "flex", flexDirection: "row", alignItems: "end", justifyContent: "center", mx: "2px", transform: "scale(0.8)", width: "45vh", height: "20vh", border: "1px solid #BB9981" } }, /* @__PURE__ */ import_react14.default.createElement("h1", null, " Employee "))), /* @__PURE__ */ import_react14.default.createElement("div", { className: "col-sm-4" }, /* @__PURE__ */ import_react14.default.createElement(Box_default, { sx: { display: "flex", flexDirection: "row", alignItems: "end", justifyContent: "center", mx: "2px", transform: "scale(0.8)", width: "45vh", height: "20vh", border: "1px solid #BB9981" } }, /* @__PURE__ */ import_react14.default.createElement("h1", null, " Departments "))), /* @__PURE__ */ import_react14.default.createElement("div", { className: "col-sm-4" }, /* @__PURE__ */ import_react14.default.createElement(Box_default, { sx: { display: "flex", flexDirection: "row", alignItems: "end", justifyContent: "center", mx: "2px", transform: "scale(0.8)", width: "45vh", height: "20vh", border: "1px solid #BB9981" } }, /* @__PURE__ */ import_react14.default.createElement("h1", null, " Positions "))))))));
   }
   var Homepage_default = Homepage;
 
@@ -93468,7 +93490,7 @@ To suppress this warning, you need to explicitly provide the \`palette.${key}Cha
 
   // src/js/App.js
   var App = () => {
-    return /* @__PURE__ */ import_react16.default.createElement(import_react16.default.Fragment, null, /* @__PURE__ */ import_react16.default.createElement("div", { className: "App" }, /* @__PURE__ */ import_react16.default.createElement(Appbar_default, null), /* @__PURE__ */ import_react16.default.createElement(Routes, null, /* @__PURE__ */ import_react16.default.createElement(Route, { path: "/", element: /* @__PURE__ */ import_react16.default.createElement(Homepage_default, null) }), /* @__PURE__ */ import_react16.default.createElement(Route, { path: "/about", element: /* @__PURE__ */ import_react16.default.createElement(About_default, null) }))));
+    return /* @__PURE__ */ import_react16.default.createElement(import_react16.default.Fragment, null, /* @__PURE__ */ import_react16.default.createElement("div", { className: "App" }, /* @__PURE__ */ import_react16.default.createElement(Header_default, null), " ", /* @__PURE__ */ import_react16.default.createElement("br", null), " ", /* @__PURE__ */ import_react16.default.createElement("br", null), /* @__PURE__ */ import_react16.default.createElement(Routes, null, /* @__PURE__ */ import_react16.default.createElement(Route, { path: "/", element: /* @__PURE__ */ import_react16.default.createElement(Homepage_default, null) }), /* @__PURE__ */ import_react16.default.createElement(Route, { path: "/about", element: /* @__PURE__ */ import_react16.default.createElement(About_default, null) }))));
   };
   var App_default = App;
 
@@ -95609,59 +95631,23 @@ To suppress this warning, you need to explicitly provide the \`palette.${key}Cha
     const [username, setUsername] = (0, import_react18.useState)("");
     const [password, setPassword] = (0, import_react18.useState)("");
     const formSubmitHandler = () => {
-      let payload = {
-        username,
-        password
-      };
       getUser(username, password).then((response) => {
         if (response.data == "") {
+          console.log(response.data, "if");
           return;
         }
         createSession(response.data);
         window.location.reload();
+        console.log("outside if");
       }).catch((response) => {
         console.log(response);
       });
     };
-    return /* @__PURE__ */ import_react18.default.createElement(import_react18.default.Fragment, null, /* @__PURE__ */ import_react18.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react18.default.createElement("div", { className: "col-md-6" }, " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("img", { src: background_default })), /* @__PURE__ */ import_react18.default.createElement("div", { className: "col-md-5" }, " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement(
-      "div",
-      {
-        className: "card",
-        style: { marginLeft: "25vh", marginTop: "20vh" }
-      },
-      /* @__PURE__ */ import_react18.default.createElement("div", { className: "card-body" }, /* @__PURE__ */ import_react18.default.createElement("center", null, /* @__PURE__ */ import_react18.default.createElement("strong", null, " ", /* @__PURE__ */ import_react18.default.createElement("h1", { style: { color: "#534340" } }, " Login "), " "), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null)), /* @__PURE__ */ import_react18.default.createElement("div", { className: "form-group" }, /* @__PURE__ */ import_react18.default.createElement("form", { method: "get", action: "#" }, /* @__PURE__ */ import_react18.default.createElement(
-        "input",
-        {
-          value: username,
-          onChange: (event) => {
-            setUsername(event.target.value);
-          },
-          className: "form-control w-80",
-          placeholder: "Enter Employee ID"
-        }
-      ), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement(
-        "input",
-        {
-          value: password,
-          onChange: (event) => {
-            setPassword(event.target.value);
-          },
-          className: "form-control",
-          type: "password",
-          placeholder: "Enter Password"
-        }
-      ), /* @__PURE__ */ import_react18.default.createElement("a", { href: "", style: { color: "#BB9981", float: "right" } }, " ", "Forgot password?", " "), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("center", null, " ", /* @__PURE__ */ import_react18.default.createElement(
-        "button",
-        {
-          onClick: formSubmitHandler,
-          className: "btn btn-outline-success w-50",
-          style: { float: "right" }
-        },
-        " ",
-        "LOGIN",
-        " "
-      ), " "))))
-    ))));
+    return /* @__PURE__ */ import_react18.default.createElement(import_react18.default.Fragment, null, /* @__PURE__ */ import_react18.default.createElement("div", { className: "row" }, /* @__PURE__ */ import_react18.default.createElement("div", { className: "col-md-6" }, " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("img", { src: background_default })), /* @__PURE__ */ import_react18.default.createElement("div", { className: "col-md-2" }), /* @__PURE__ */ import_react18.default.createElement("div", { className: "col-md-3" }, " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("div", { className: "card w-auto h-75 float-right", style: { borderColor: "#C5D8A4", borderTopRightRadius: "0px", borderTopLeftRadius: "30px", borderBottomLeftRadius: "0px", borderBottomRightRadius: "30px" } }, /* @__PURE__ */ import_react18.default.createElement("div", { className: "card-body" }, /* @__PURE__ */ import_react18.default.createElement("center", null, /* @__PURE__ */ import_react18.default.createElement("strong", null, " ", /* @__PURE__ */ import_react18.default.createElement("h1", { style: { color: "#534340" } }, " Login  "), " "), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null)), /* @__PURE__ */ import_react18.default.createElement("div", { className: "form-group" }, /* @__PURE__ */ import_react18.default.createElement("form", { method: "get", action: "#" }, /* @__PURE__ */ import_react18.default.createElement("label", null, " Employee ID "), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("input", { value: username, onChange: (event) => {
+      setUsername(event.target.value);
+    }, className: "form-control w-80", placeholder: "Enter Employee ID" }), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("label", null, " Password "), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("input", { value: password, onChange: (event) => {
+      setPassword(event.target.value);
+    }, className: "form-control", type: "password", placeholder: "Enter Password" }), /* @__PURE__ */ import_react18.default.createElement("a", { href: "", style: { color: "#BB9981", float: "right" } }, " Forgot password? "), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), " ", /* @__PURE__ */ import_react18.default.createElement("br", null), /* @__PURE__ */ import_react18.default.createElement("center", null, " ", /* @__PURE__ */ import_react18.default.createElement("button", { onClick: formSubmitHandler, type: "button", className: "btn btn-outline-success w-50", style: { float: "right" } }, " LOGIN "), " "))))))));
   };
   var Login_default = Login;
 
