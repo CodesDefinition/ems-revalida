@@ -1,12 +1,17 @@
-import React, {useState} from 'react';
-import {Card, CardContent, Button, Typography} from '@mui/material';
-import {Modal, ModalDialog, ModalClose, FormControl, FormLabel, Input, Grid, Radio, RadioGroup} from '@mui/joy'
+import React, {useEffect, useState} from 'react';
+import {Card, CardContent, Container, Button, Typography} from '@mui/material';
+import {Modal, ModalDialog, ModalClose, 
+        FormControl, FormLabel, Input, 
+        Grid, Radio, RadioGroup} from '@mui/joy'
 import {DataGrid, GridToolbarContainer,
                     GridToolbarColumnsButton,
                     GridToolbarFilterButton,
                     GridToolbarExport,
                     GridToolbarDensitySelector} from '@mui/x-data-grid';
-import {PersonAddAlt1, AccountCircle, AlternateEmail, ContactPage, ManageAccounts, PersonRemove} from '@mui/icons-material';
+import {PersonAddAlt1, AccountCircle, AlternateEmail, 
+                        ContactPage, ManageAccounts, 
+                        PersonRemove, PersonSearch} from '@mui/icons-material';
+import {getUsers} from '../services/UsersService';
 
 function CustomToolbar() {
     return (
@@ -19,28 +24,42 @@ function CustomToolbar() {
       );
 }
 
-const registerEmployee = () => {
+const Employee = () => {
+
+    const [userDetails, setUserDetails] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
+    
+    const refresh = () => {
+        getUsers().then((response) => {
+            setIsLoaded(true);
+            console.log(response.data);
+            setUserDetails(response.data);
+        })
+    }
+
+    useEffect(() => {
+      refresh();
+    }, [])
+
     const columnOptions = {
         editable: false,
-        headerAlign: "center",
-        width: 300,
+        headerAlign: "start",
+        width: 200,
         align: "start",
         disableColumnMenu: true,
         sortable: true
       };
-      
-      const rows = [
-        { id: 1, name: "Employee1", department: "IT Department", position: "Developer 1"},
-        { id: 2, name: "Employee2", department: "Finance Department", position: "Internal Auditor" },
-        { id: 3, name: "Employee3", department: "Marketing Department", position: "Marketing Coordinator" },
-        { id: 4, name: "Employee4", department: "IT Department", position: "Developer 1" },
-        { id: 5, name: "Employee5", department: "IT Department", position: "Developer 3" },
-      ];
-      
+
       const columns = [
-        { field: "name", headerName: "Name", ...columnOptions },
+        { field: "lastName", headerName: "Last Name", ...columnOptions },
+        { field: "firstName", headerName: "First Name", ...columnOptions },
+        { field: "middleName", headerName: "Middle Name", ...columnOptions },
+        { field: "birthDate", headerName: "Birthday", ...columnOptions },
+        { field: "gender", headerName: "Gender", ...columnOptions },
+        { field: "mobileNumber", headerName: "Mobile Number", ...columnOptions },
         { field: "department", headerName: "Department", ...columnOptions },
         { field: "position", headerName: "Position", ...columnOptions },
+        { field: "email", headerName: "Email", ...columnOptions },
         { field: "Action", renderCell: (cellValues) => {
             return (
                 <>
@@ -63,7 +82,17 @@ const registerEmployee = () => {
             <Card sx = {{maxWidth: "85%", marginLeft: "15vh"}}>
                 <CardContent>
                     <Typography variant = "h3" gutterBottom> Employee </Typography> <hr/> <br />
-                    <Button variant = "outlined" color = "success" style = {{float: "right"}} onClick = {() => setModalRegisterOpen(!modalRegisterOpen)}> <PersonAddAlt1 /> &nbsp; Register  </Button> <br/> <br/>
+                    <Container sx = {{display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "flex-end", gap: "1rem", padding: "10px"}}>
+                        <Button variant = "outlined" color = "success" onClick = {() => {
+                            console.log(row);
+                            setModalRegisterOpen(!modalRegisterOpen)
+                        }}> <PersonAddAlt1 /> &nbsp; Register  </Button>
+                        <form method = "" action = "">
+                            <FormControl>
+                                <Input startDecorator = {<PersonSearch/>} placeholder = "Search" sx = {{float: "right", width: "40vh"}} />
+                            </FormControl>
+                        </form>
+                    </Container>
                     {/* Register Modal */}
                     <Modal open = {modalRegisterOpen}>
                         <ModalDialog aria-labelledby = "basic-modal-dialog-title"
@@ -229,7 +258,8 @@ const registerEmployee = () => {
                         </ModalDialog>
                     </Modal>
                     <DataGrid
-                        rows = {rows}
+                        getRowId = {userDetails => userDetails.employeeId}
+                        rows = {userDetails}
                         columns = {columns}
                         editMode = "cell"
                         autoHeight = "true"
@@ -252,4 +282,4 @@ const registerEmployee = () => {
     )
 }
 
-export default registerEmployee;
+export default Employee;
