@@ -5,6 +5,7 @@ import Homepage from "./admin/Homepage";
 import About from "./About";
 import Employee from "./admin/EmployeeList";
 import Login from './Login';
+import Dashboard from './user_modules/Dashboard';
 
 const App = () => {
   return (
