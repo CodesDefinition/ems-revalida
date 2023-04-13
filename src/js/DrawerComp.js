@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
 import {
   Drawer,
-  IconButton,
+  Icon,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import { MenuIcon } from "@mui/icons-material/Menu";
 const PAGES = ["Home", "About", "Logout"];
-const DrawerComp = () => {
+
+function DrawerComp() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [tab, setTab] = useState();
@@ -41,12 +42,14 @@ const DrawerComp = () => {
           ))}
         </List>
       </Drawer>
-      <IconButton sx={{ color: "#bb9981" }} onClick={() => setIsOpen(!isOpen)}>
-        {/* <MenuIcon /> */}
-        ---
+      <IconButton
+        icon
+        sx={{ color: "#bb9981" }}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <Icon>---</Icon>
       </IconButton>
     </React.Fragment>
   );
-};
-
+}
 export default DrawerComp;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import bgimg from "../img/background.png";
 import { createSession, getUser, getUsers } from "./services/UsersService";
 
 const Login = () => {
@@ -30,7 +29,7 @@ const Login = () => {
         <div className="col-md-6">
           {" "}
           <br /> <br /> <br /> <br />
-          <img src={bgimg} />
+          <img src={process.env.PUBLIC_URL + "/img/background.png"} />
         </div>
         <div className="col-md-5">
           {" "}
