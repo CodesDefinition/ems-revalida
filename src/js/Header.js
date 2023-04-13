@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import DrawerComp from "./DrawerComp";
 const PAGES = ["Home", "About", "Logout"];
+
 function Appbar() {
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
@@ -20,12 +21,13 @@ function Appbar() {
     setTab(value);
     if (value == 0) {
       console.log("Going home");
-      navigate("/");
+      navigate("/userhome");
     } else if (value == 1) {
       console.log("Going about");
       navigate("/about");
     } else if (value == 2) {
-      console.log("Going logout");
+      console.log("/login");
+      navigate("/login");
     }
   };
   return (
@@ -34,10 +36,16 @@ function Appbar() {
         position="static"
         sx={{
           backgroundColor: "#534340",
+          color: "#FFF8EA",
         }}
       >
         <Toolbar>
-          <Typography variant="h5">Employee Management System</Typography>
+          <Typography
+            variant="h5"
+            sx={{ fontFamily: "Montserrat, sans-serif" }}
+          >
+            Employee Management System
+          </Typography>
           {isMatch ? (
             <>
               <Tabs sx={{ marginLeft: "auto" }}>
@@ -47,12 +55,25 @@ function Appbar() {
           ) : (
             <>
               <Tabs
+                TabIndicatorProps={{
+                  style: { backgroundColor: "#FFF8EA", color: "#FFF8EA" },
+                }}
+                indicatorColor="#FFF8EA"
+                textColor="#FFF8EA"
                 value={tab}
                 onChange={(e, value) => handleChange(value)}
-                sx={{ marginLeft: "auto", color: "#bb9981" }}
+                sx={{
+                  marginLeft: "auto",
+                  color: "#bb9981",
+                  textDecoration: "none",
+                }}
               >
                 {PAGES.map((page, index) => (
-                  <Tab key={index} label={page} sx={{ color: "#bb9981" }} />
+                  <Tab
+                    key={index}
+                    label={page}
+                    sx={{ color: "#bb9981", textDecoration: "none" }}
+                  />
                 ))}
                 {/* <Tab key={index} label={page} sx={{ color: "#bb9981" }} />; */}
               </Tabs>
