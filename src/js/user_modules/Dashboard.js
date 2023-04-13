@@ -27,6 +27,10 @@ function Dashboard() {
   };
   const buttonStyle = {
     backgroundColor: "#FFF8EA",
+    "&:hover": {
+      color: "#FFF8EA",
+      backgroundColor: "#594545",
+    },
     color: "#594545",
     fontFamily: "Montserrat, sans-serif",
     padding: ".5rem",
@@ -37,7 +41,6 @@ function Dashboard() {
   const titleStyle = {
     width: "50%",
     fontWeight: "bold",
-    letterSpacing: ".1rem",
   };
   return (
     <Box
@@ -67,80 +70,80 @@ function Dashboard() {
           </Typography>
           <Paper style={paperStyle}>
             <Grid container>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Employee ID:
               </Grid>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 2320-87881
               </Grid>
             </Grid>
           </Paper>
           <Paper style={paperStyle}>
             <Grid container>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Employee Name:
               </Grid>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Bartolome Tolome
               </Grid>
             </Grid>
           </Paper>
           <Paper style={paperStyle}>
             <Grid container>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Employee Email:
               </Grid>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 barto@email.com
               </Grid>
             </Grid>
           </Paper>
           <Paper style={paperStyle}>
             <Grid container>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Department:
               </Grid>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 IT
               </Grid>
             </Grid>
           </Paper>
           <Paper style={paperStyle}>
             <Grid container>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Position:
               </Grid>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Assistant
               </Grid>
             </Grid>
           </Paper>
           <Paper style={paperStyle}>
             <Grid container>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Mobile Number:
               </Grid>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 0985545485
               </Grid>
             </Grid>
           </Paper>
           <Paper style={paperStyle}>
             <Grid container>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Birthday:
               </Grid>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Apr-20-2000
               </Grid>
             </Grid>
           </Paper>
           <Paper style={paperStyle}>
             <Grid container>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Gender:
               </Grid>
-              <Grid item sx={{ width: "50%" }}>
+              <Grid item sx={titleStyle}>
                 Male
               </Grid>
             </Grid>
