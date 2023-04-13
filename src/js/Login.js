@@ -25,13 +25,11 @@ const Login = () => {
     <React.Fragment>
       <div className="row">
         <div className="col-md-6">
-          {" "}
           <br /> <br /> <br /> <br />
           <img src={bgimg} />
         </div>
         <div className="col-md-2"></div>
         <div className="col-md-3">
-          {" "}
           <br /> <br />
           <br /> <br /> <br /> <br />
           <div
@@ -47,9 +45,8 @@ const Login = () => {
             <div className="card-body">
               <center>
                 <strong>
-                  {" "}
-                  <h1 style={{ color: "#534340" }}> Login </h1>{" "}
-                </strong>{" "}
+                  <h1 style={{ color: "#534340" }}> Login </h1>
+                </strong>
                 <br /> <br />
               </center>
               <div className="form-group">
@@ -62,7 +59,7 @@ const Login = () => {
                     }}
                     className="form-control w-80"
                     placeholder="Enter Employee ID"
-                  />{" "}
+                  />
                   <br />
                   <label> Password </label> <br />
                   <input
@@ -75,21 +72,18 @@ const Login = () => {
                     placeholder="Enter Password"
                   />
                   <a href="" style={{ color: "#BB9981", float: "right" }}>
-                    {" "}
-                    Forgot password?{" "}
-                  </a>{" "}
+                    Forgot password?
+                  </a>
                   <br /> <br />
                   <center>
-                    {" "}
                     <button
                       onClick={formSubmitHandler}
                       type="button"
                       className="btn btn-outline-success w-50"
                       style={{ float: "right" }}
                     >
-                      {" "}
-                      LOGIN{" "}
-                    </button>{" "}
+                      LOGIN
+                    </button>
                   </center>
                 </form>
               </div>

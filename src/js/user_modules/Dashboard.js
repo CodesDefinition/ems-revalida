@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
+  FormControl,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Typography,
   Paper,
+  Container,
   Grid,
   useMediaQuery,
 } from "@mui/material";
+
+import {
+  PersonAddAlt1,
+  AccountCircle,
+  AlternateEmail,
+  ContactPage,
+  ManageAccounts,
+  PersonRemove,
+} from "@mui/icons-material";
 function Dashboard() {
+  // variables for styles
   const matches = useMediaQuery("(max-width:1202px)");
   const paperStyle = {
     backgroundColor: "#FFF8EA",
@@ -42,6 +60,33 @@ function Dashboard() {
     width: "50%",
     fontWeight: "bold",
   };
+  const inputLblStyles = {
+    backgroundColor: "#FFF8EA",
+    color: "#594545",
+    fontFamily: "Montserrat, sans-serif",
+    fontWeight: "bold",
+    fontSize: "18px",
+  };
+  //  states for user info
+  const [firstName, setFirstName] = useState("Mark");
+  const [middleName, setMiddleName] = useState("Cariño");
+  const [lastName, setLastName] = useState("Perez");
+  const [email, setEmail] = useState("mark@email.com");
+  const [number, setNumber] = useState("6665585288");
+  // functions
+  const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
+  const handleSubmit = () => {
+    const payload = {
+      fname: firstName,
+      mname: middleName,
+      lname: lastName,
+      email: email,
+      number: number,
+    };
+    console.log(payload);
+    setModalUpdateOpen(!modalUpdateOpen);
+  };
+
   return (
     <Box
       sx={{
@@ -55,6 +100,215 @@ function Dashboard() {
         ml: "auto",
       }}
     >
+      <Dialog
+        open={modalUpdateOpen}
+        onClose={() => setModalUpdateOpen(!modalUpdateOpen)}
+        PaperProps={{
+          style: {
+            backgroundColor: "#FFF8EA",
+            color: "#594545",
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            fontFamily: "Montserrat, sans-serif",
+            fontWeight: "bold",
+          }}
+        >
+          Update Employee Information
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            fontFamily: "Montserrat, sans-serif",
+          }}
+        >
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="fname"
+            label="First Name"
+            value={firstName}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+          />
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="mname"
+            label="Middle Name"
+            value={middleName}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setMiddleName(e.target.value);
+            }}
+          />
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="lname"
+            label="Last Name"
+            value={lastName}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+          />
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="email"
+            label="Email Address"
+            value={email}
+            type="email"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="mobNum"
+            label="Mobile Number"
+            value={number}
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setNumber(e.target.value);
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
+            sx={{
+              color: "#594545",
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => handleSubmit()}
+            sx={{
+              backgroundColor: "#594545",
+              color: "#FFF8EA",
+              "&:hover": {
+                color: "#594545",
+                backgroundColor: "#FFF8EA",
+                border: "1px solid #594545 ",
+              },
+            }}
+          >
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
       {matches ? (
         <Box sx={boxStyle}>
           <Typography
@@ -179,7 +433,12 @@ function Dashboard() {
                 justifyContent: "center",
               }}
             >
-              <Button sx={buttonStyle}>Update Information</Button>
+              <Button
+                sx={buttonStyle}
+                onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
+              >
+                Update Information
+              </Button>
             </Grid>
           </Grid>
         </Box>
@@ -321,7 +580,12 @@ function Dashboard() {
                 justifyContent: "center",
               }}
             >
-              <Button sx={buttonStyle}>Update Information</Button>
+              <Button
+                sx={buttonStyle}
+                onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
+              >
+                Update Information
+              </Button>
             </Grid>
           </Grid>
         </Box>
