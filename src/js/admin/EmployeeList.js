@@ -12,6 +12,7 @@ import {PersonAddAlt1, AccountCircle, AlternateEmail,
                         ContactPage, ManageAccounts, 
                         PersonRemove, PersonSearch} from '@mui/icons-material';
 import {getUsers} from '../services/UsersService';
+import {insertData} from '../services/EmployeeService';
 
 function CustomToolbar() {
     return (
@@ -27,11 +28,29 @@ function CustomToolbar() {
 const Employee = () => {
 
     const [userDetails, setUserDetails] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [user, setUser] = useState({
+        firstName: "",
+        middleName: "",
+        birthDate: "",
+        gender: "",
+        email: "",
+        mobileNumber: "",
+        department: "",
+        position: "",
+        password: ""
+    });
+
+    const register = (args) => {
+        insertData(user).then((response) => {
+            window.location.reload();
+        }).catch((response) => {
+            alert("Error: not able to register employee");
+            console.log(response);
+        })
+    }
     
     const refresh = () => {
         getUsers().then((response) => {
-            setIsLoaded(true);
             console.log(response.data);
             setUserDetails(response.data);
         })
@@ -49,7 +68,7 @@ const Employee = () => {
         disableColumnMenu: true,
         sortable: true
       };
-
+      
       const columns = [
         { field: "lastName", headerName: "Last Name", ...columnOptions },
         { field: "firstName", headerName: "First Name", ...columnOptions },
@@ -60,6 +79,7 @@ const Employee = () => {
         { field: "department", headerName: "Department", ...columnOptions },
         { field: "position", headerName: "Position", ...columnOptions },
         { field: "email", headerName: "Email", ...columnOptions },
+        { field: "password", headerName: "Password", ...columnOptions },
         { field: "Action", renderCell: (cellValues) => {
             return (
                 <>
@@ -83,10 +103,7 @@ const Employee = () => {
                 <CardContent>
                     <Typography variant = "h3" gutterBottom> Employee </Typography> <hr/> <br />
                     <Container sx = {{display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "flex-end", gap: "1rem", padding: "10px"}}>
-                        <Button variant = "outlined" color = "success" onClick = {() => {
-                            console.log(row);
-                            setModalRegisterOpen(!modalRegisterOpen)
-                        }}> <PersonAddAlt1 /> &nbsp; Register  </Button>
+                        <Button variant = "outlined" color = "success" onClick = {() => setModalRegisterOpen(!modalRegisterOpen) }> <PersonAddAlt1 /> &nbsp; Register  </Button>
                         <form method = "" action = "">
                             <FormControl>
                                 <Input startDecorator = {<PersonSearch/>} placeholder = "Search" sx = {{float: "right", width: "40vh"}} />
@@ -105,67 +122,146 @@ const Employee = () => {
                                 <Grid xs = {6}>
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> First Name </FormLabel>
-                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input First Name"/> 
+                                            <Input value = {user.firstName} 
+                                                    size = "sm" 
+                                                    startDecorator = {<AccountCircle />} 
+                                                    placeholder = "Input First Name"
+                                                    onChange = {(event) => {
+                                                        let obj = {...user}
+                                                        obj.firstName = event.target.value;
+                                                        setUser(obj);
+                                                    }} /> 
                                         </FormControl>
                                         
                                         <FormControl sx = {{padding: "5px"}}>
-                                            <FormLabel> Middle Name </FormLabel>
-                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input Middle Name"/> 
+                                            <FormLabel> Last Name </FormLabel>
+                                            <Input value = {user.lastName}  
+                                                    size = "sm" 
+                                                    startDecorator = {<AccountCircle />} 
+                                                    placeholder = "Input Middle Name"
+                                                    onChange = {(event) => {
+                                                        let obj = {...user}
+                                                        obj.lastName = event.target.value;
+                                                        setUser(obj);
+                                                    }} />
                                         </FormControl>
                                         
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> Birthday </FormLabel>
-                                            <Input size = "sm" type = "date" placeholder = "Birthday" />    
+                                            <Input value = {user.birthday} 
+                                            size = "sm" 
+                                            type = "date" 
+                                            
+                                            placeholder = "Birthday" 
+                                            onChange = {(event) => {
+                                                let obj = {...user}
+                                                obj.birthDate = event.target.value;
+                                                setUser(obj);
+                                            }} />    
                                         </FormControl>
                                         
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> Gender </FormLabel>
-                                            <RadioGroup size = "sm">
+                                            <RadioGroup size = "sm" name = "gender">
                                                 <Radio
                                                     value="Male"
                                                     name="radio-buttons"
                                                     label = "Male"
                                                     size = "md"
                                                     slotProps={{ input: { 'aria-label': 'Male' } }}
-                                                /> <br />
+                                                    onClick = {(event) => {
+                                                        let obj = {...user};
+                                                        obj.gender = event.target.value;
+                                                        setUser(obj);
+                                                    }} /> <br />
                                                 <Radio
                                                     value="Female"
                                                     name="radio-buttons"
                                                     label = "Female"
                                                     size = "md"
                                                     slotProps={{ input: { 'aria-label': 'Female' } }}
+                                                    onClick = {(event) => {
+                                                        let obj = {...user};
+                                                        obj.gender = event.target.value;
+                                                        setUser(obj);
+                                                    }}
                                                 />
                                             </RadioGroup>
                                         </FormControl>
                                     </Grid>
                                     <Grid xs = {6}>
                                         <FormControl sx = {{padding: "5px"}}>
-                                            <FormLabel> Last Name </FormLabel>
-                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input Last Name"/> 
+                                            <FormLabel> Middle Name </FormLabel>
+                                            <Input value = {user.middleNames} 
+                                                    size = "sm" startDecorator = {<AccountCircle />} 
+                                                    placeholder = "Input Last Name"
+                                                    onChange = {(event) => {
+                                                        let obj = {...user};
+                                                        obj.middleName = event.target.value;
+                                                        setUser(obj);
+                                                    }} /> 
                                         </FormControl>
                                     </Grid>
                                 </Grid>
                                         
                                 <FormControl sx = {{padding: "5px"}}>
                                     <FormLabel> Email </FormLabel>
-                                    <Input size = "sm" startDecorator = {<AlternateEmail/>}  type = "email" placeholder = "Input Email" />    
+                                    <Input value = {user.email} 
+                                            size = "sm" 
+                                            startDecorator = {<AlternateEmail/>}  
+                                            type = "email" 
+                                            placeholder = "Input Email"
+                                            onChange = {(event) => {
+                                                let obj = {...user};
+                                                obj.email = event.target.value;
+                                                setUser(obj);
+                                            }} />    
                                 </FormControl>
                                 
                                 <FormControl sx = {{padding: "5px"}}>
                                     <FormLabel> Mobile Number </FormLabel>
-                                    <Input size = "sm" startDecorator = {<ContactPage/>} type = "number" placeholder = "Input Mobile Number" />    
+                                    <Input value = {user.mobileNumber} 
+                                            size = "sm" 
+                                            startDecorator = {<ContactPage/>} 
+                                            type = "number" 
+                                            placeholder = "Input Mobile Number"
+                                            onChange = {(event) => {
+                                                let obj = {...user};
+                                                obj.mobileNumber = event.target.value;
+                                                setUser(obj);
+                                            }} />    
                                 </FormControl>
                                 
                                 <FormControl sx = {{padding: "5px"}}>
                                     <FormLabel> Department </FormLabel>
-                                    <Input size = "sm" placeholder = "Input Department" />    
+                                    <Input value = {user.department} 
+                                    size = "sm" 
+                                    placeholder = "Input Department"
+                                    onChange = {(event) => {
+                                        let obj = {...user};
+                                        obj.department = event.target.value;
+                                        setUser(obj);
+                                    }} />    
                                 </FormControl>
                                 
                                 <FormControl sx = {{padding: "5px"}}>
                                     <FormLabel> Position </FormLabel>
-                                    <Input size = "sm" placeholder = "Input Position" />    
+                                    <Input value = {user.position} 
+                                            size = "sm" 
+                                            placeholder = "Input Position"
+                                            onChange = {(event) => {
+                                                let obj = {...user};
+                                                obj.position = event.target.value;
+                                                setUser(obj);
+                                            }} />    
                                 </FormControl>
-                                <Button variant = "soft" sx = {{float: "right", backgroundColor: "#C5D8A4", color: "#534340"}}> Register </Button>
+                                <Button variant = "soft"
+                                         sx = {{float: "right", 
+                                                backgroundColor: "#C5D8A4", 
+                                                color: "#534340"}}
+                                         onClick = {() => {
+                                            register();
+                                         }}> Register </Button>
                             </form>
                         </ModalDialog>
                     </Modal>
@@ -217,7 +313,9 @@ const Employee = () => {
                                     <Grid xs = {6}>
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> Last Name </FormLabel>
-                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input Last Name"/> 
+                                            <Input size = "sm" 
+                                                    startDecorator = {<AccountCircle />} 
+                                                    placeholder = "Input Last Name"/> 
                                         </FormControl>
                                     </Grid>
                                 </Grid>
@@ -270,7 +368,7 @@ const Employee = () => {
                         initialState = {{
                             pagination: {
                                 paginationModel: {
-                                    pageSize: 10
+                                    pageSize: 5
                                 }
                             }
                         }}

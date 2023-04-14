@@ -13879,8 +13879,8 @@
               return true;
             }
           }
-          function findFirstSuspended(row2) {
-            var node2 = row2;
+          function findFirstSuspended(row) {
+            var node2 = row;
             while (node2 !== null) {
               if (node2.tag === SuspenseComponent) {
                 var state = node2.memoizedState;
@@ -13902,11 +13902,11 @@
                 node2 = node2.child;
                 continue;
               }
-              if (node2 === row2) {
+              if (node2 === row) {
                 return null;
               }
               while (node2.sibling === null) {
-                if (node2.return === null || node2.return === row2) {
+                if (node2.return === null || node2.return === row) {
                   return null;
                 }
                 node2 = node2.return;
@@ -14013,12 +14013,12 @@
                   for (var i = 0; i <= hookTypesUpdateIndexDev; i++) {
                     var oldHookName = hookTypesDev[i];
                     var newHookName = i === hookTypesUpdateIndexDev ? currentHookName : oldHookName;
-                    var row2 = i + 1 + ". " + oldHookName;
-                    while (row2.length < secondColumnStart) {
-                      row2 += " ";
+                    var row = i + 1 + ". " + oldHookName;
+                    while (row.length < secondColumnStart) {
+                      row += " ";
                     }
-                    row2 += newHookName + "\n";
-                    table += row2;
+                    row += newHookName + "\n";
+                    table += row;
                   }
                   error("React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://reactjs.org/link/rules-of-hooks\n\n   Previous render            Next render\n   ------------------------------------------------------\n%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", componentName, table);
                 }
@@ -17307,14 +17307,14 @@
             }
           }
           function findLastContentRow(firstChild) {
-            var row2 = firstChild;
+            var row = firstChild;
             var lastContentRow = null;
-            while (row2 !== null) {
-              var currentRow = row2.alternate;
+            while (row !== null) {
+              var currentRow = row.alternate;
               if (currentRow !== null && findFirstSuspended(currentRow) === null) {
-                lastContentRow = row2;
+                lastContentRow = row;
               }
-              row2 = row2.sibling;
+              row = row.sibling;
             }
             return lastContentRow;
           }
@@ -17468,18 +17468,18 @@
                 }
                 case "backwards": {
                   var _tail = null;
-                  var row2 = workInProgress2.child;
+                  var row = workInProgress2.child;
                   workInProgress2.child = null;
-                  while (row2 !== null) {
-                    var currentRow = row2.alternate;
+                  while (row !== null) {
+                    var currentRow = row.alternate;
                     if (currentRow !== null && findFirstSuspended(currentRow) === null) {
-                      workInProgress2.child = row2;
+                      workInProgress2.child = row;
                       break;
                     }
-                    var nextRow = row2.sibling;
-                    row2.sibling = _tail;
-                    _tail = row2;
-                    row2 = nextRow;
+                    var nextRow = row.sibling;
+                    row.sibling = _tail;
+                    _tail = row;
+                    row = nextRow;
                   }
                   initSuspenseListRenderState(
                     workInProgress2,
@@ -18307,9 +18307,9 @@
                   if (!didSuspendAlready) {
                     var cannotBeSuspended = renderHasNotSuspendedYet() && (current2 === null || (current2.flags & DidCapture) === NoFlags);
                     if (!cannotBeSuspended) {
-                      var row2 = workInProgress2.child;
-                      while (row2 !== null) {
-                        var suspended = findFirstSuspended(row2);
+                      var row = workInProgress2.child;
+                      while (row !== null) {
+                        var suspended = findFirstSuspended(row);
                         if (suspended !== null) {
                           didSuspendAlready = true;
                           workInProgress2.flags |= DidCapture;
@@ -18324,7 +18324,7 @@
                           pushSuspenseContext(workInProgress2, setShallowSuspenseContext(suspenseStackCursor.current, ForceSuspenseFallback));
                           return workInProgress2.child;
                         }
-                        row2 = row2.sibling;
+                        row = row.sibling;
                       }
                     }
                     if (renderState.tail !== null && now() > getRenderTargetTime()) {
@@ -61190,17 +61190,17 @@ Please use another name.` : formatMuiErrorMessage(18));
   var gridVisibleRowsLookupSelector = createSelector2(gridFilterStateSelector, (filterState) => filterState.visibleRowsLookup);
   var gridFilteredRowsLookupSelector = createSelector2(gridFilterStateSelector, (filterState) => filterState.filteredRowsLookup);
   var gridFilteredDescendantCountLookupSelector = createSelector2(gridFilterStateSelector, (filterState) => filterState.filteredDescendantCountLookup);
-  var gridExpandedSortedRowEntriesSelector = createSelector2(gridVisibleRowsLookupSelector, gridSortedRowEntriesSelector, (visibleRowsLookup, sortedRows) => sortedRows.filter((row2) => visibleRowsLookup[row2.id] !== false));
-  var gridExpandedSortedRowIdsSelector = createSelector2(gridExpandedSortedRowEntriesSelector, (visibleSortedRowEntries) => visibleSortedRowEntries.map((row2) => row2.id));
-  var gridFilteredSortedRowEntriesSelector = createSelector2(gridFilteredRowsLookupSelector, gridSortedRowEntriesSelector, (filteredRowsLookup, sortedRows) => sortedRows.filter((row2) => filteredRowsLookup[row2.id] !== false));
-  var gridFilteredSortedRowIdsSelector = createSelector2(gridFilteredSortedRowEntriesSelector, (filteredSortedRowEntries) => filteredSortedRowEntries.map((row2) => row2.id));
+  var gridExpandedSortedRowEntriesSelector = createSelector2(gridVisibleRowsLookupSelector, gridSortedRowEntriesSelector, (visibleRowsLookup, sortedRows) => sortedRows.filter((row) => visibleRowsLookup[row.id] !== false));
+  var gridExpandedSortedRowIdsSelector = createSelector2(gridExpandedSortedRowEntriesSelector, (visibleSortedRowEntries) => visibleSortedRowEntries.map((row) => row.id));
+  var gridFilteredSortedRowEntriesSelector = createSelector2(gridFilteredRowsLookupSelector, gridSortedRowEntriesSelector, (filteredRowsLookup, sortedRows) => sortedRows.filter((row) => filteredRowsLookup[row.id] !== false));
+  var gridFilteredSortedRowIdsSelector = createSelector2(gridFilteredSortedRowEntriesSelector, (filteredSortedRowEntries) => filteredSortedRowEntries.map((row) => row.id));
   var gridFilteredSortedTopLevelRowEntriesSelector = createSelector2(gridExpandedSortedRowEntriesSelector, gridRowTreeSelector, gridRowMaximumTreeDepthSelector, (visibleSortedRows, rowTree, rowTreeDepth) => {
     if (rowTreeDepth < 2) {
       return visibleSortedRows;
     }
-    return visibleSortedRows.filter((row2) => {
+    return visibleSortedRows.filter((row) => {
       var _rowTree$row$id;
-      return ((_rowTree$row$id = rowTree[row2.id]) == null ? void 0 : _rowTree$row$id.depth) === 0;
+      return ((_rowTree$row$id = rowTree[row.id]) == null ? void 0 : _rowTree$row$id.depth) === 0;
     });
   });
   var gridExpandedRowCountSelector = createSelector2(gridExpandedSortedRowEntriesSelector, (visibleSortedRows) => visibleSortedRows.length);
@@ -61389,9 +61389,9 @@ Please use another name.` : formatMuiErrorMessage(18));
     childrenExpanded: true,
     parent: null
   });
-  function checkGridRowIdIsValid(id, row2, detailErrorMessage = "A row was provided without id in the rows prop:") {
+  function checkGridRowIdIsValid(id, row, detailErrorMessage = "A row was provided without id in the rows prop:") {
     if (id == null) {
-      throw new Error(["MUI: The data grid component requires all rows to have a unique `id` property.", "Alternatively, you can use the `getRowId` prop to specify a custom id for each row.", detailErrorMessage, JSON.stringify(row2)].join("\n"));
+      throw new Error(["MUI: The data grid component requires all rows to have a unique `id` property.", "Alternatively, you can use the `getRowId` prop to specify a custom id for each row.", detailErrorMessage, JSON.stringify(row)].join("\n"));
     }
   }
   var getRowIdFromRowModel = (rowModel, getRowId, detailErrorMessage) => {
@@ -62627,7 +62627,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       id,
       value: valueProp,
       field,
-      row: row2,
+      row,
       colDef,
       hasFocus,
       error,
@@ -62658,7 +62658,7 @@ Please use another name.` : formatMuiErrorMessage(18));
     if (typeof (colDef == null ? void 0 : colDef.valueOptions) === "function") {
       valueOptions = colDef == null ? void 0 : colDef.valueOptions({
         id,
-        row: row2,
+        row,
         field
       });
     } else {
@@ -65295,12 +65295,12 @@ Please use another name.` : formatMuiErrorMessage(18));
     }
     const topLevelFirstRow = visibleSortedTopLevelRowEntries[topLevelFirstRowIndex];
     const topLevelRowsInCurrentPageCount = topLevelLastRowIndex - topLevelFirstRowIndex + 1;
-    const firstRowIndex = visibleSortedRowEntries.findIndex((row2) => row2.id === topLevelFirstRow.id);
+    const firstRowIndex = visibleSortedRowEntries.findIndex((row) => row.id === topLevelFirstRow.id);
     let lastRowIndex = firstRowIndex;
     let topLevelRowAdded = 0;
     while (lastRowIndex < visibleSortedRowEntries.length && topLevelRowAdded <= topLevelRowsInCurrentPageCount) {
-      const row2 = visibleSortedRowEntries[lastRowIndex];
-      const depth = rowTree[row2.id].depth;
+      const row = visibleSortedRowEntries[lastRowIndex];
+      const depth = rowTree[row.id].depth;
       if (topLevelRowAdded < topLevelRowsInCurrentPageCount || depth > 0) {
         lastRowIndex += 1;
       }
@@ -68344,7 +68344,7 @@ Please use another name.` : formatMuiErrorMessage(18));
     return (rowList) => rowList.map((node2) => ({
       node: node2,
       params: comparatorList.map((el) => el.getSortCellParams(node2.id))
-    })).sort((a, b) => compareRows(comparatorList, a, b)).map((row2) => row2.node.id);
+    })).sort((a, b) => compareRows(comparatorList, a, b)).map((row) => row.node.id);
   };
   var getNextGridSortDirection = (sortingOrder, current) => {
     const currentIdx = sortingOrder.indexOf(current);
@@ -68716,7 +68716,7 @@ Please use another name.` : formatMuiErrorMessage(18));
     const {
       selected,
       rowId,
-      row: row2,
+      row,
       index,
       style: styleProp,
       position: position2,
@@ -68965,7 +68965,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       }
     }
     const emptyCellWidth = containerWidth - columnsTotalWidth;
-    const eventHandlers = row2 ? {
+    const eventHandlers = row ? {
       onClick: publishClick,
       onDoubleClick: publish("rowDoubleClick", onDoubleClick),
       onMouseEnter: publish("rowMouseEnter", onMouseEnter),
@@ -70565,8 +70565,8 @@ Please use another name.` : formatMuiErrorMessage(18));
   }) {
     let firstNonSpannedColumnToRender = firstColumnToRender;
     for (let i = firstRowToRender; i < lastRowToRender; i += 1) {
-      const row2 = visibleRows[i];
-      if (row2) {
+      const row = visibleRows[i];
+      if (row) {
         const rowId = visibleRows[i].id;
         const cellColSpanInfo = apiRef.current.unstable_getCellColSpanInfo(rowId, firstColumnToRender);
         if (cellColSpanInfo && cellColSpanInfo.spannedByColSpan) {
@@ -70988,8 +70988,8 @@ Please use another name.` : formatMuiErrorMessage(18));
     const selectedRows = apiRef.current.getSelectedRows();
     const bodyRows = filteredSortedRowIds.filter((id) => rowTree[id].type !== "footer");
     const pinnedRows = gridPinnedRowsSelector(apiRef);
-    const topPinnedRowsIds = (pinnedRows == null ? void 0 : (_pinnedRows$top = pinnedRows.top) == null ? void 0 : _pinnedRows$top.map((row2) => row2.id)) || [];
-    const bottomPinnedRowsIds = (pinnedRows == null ? void 0 : (_pinnedRows$bottom = pinnedRows.bottom) == null ? void 0 : _pinnedRows$bottom.map((row2) => row2.id)) || [];
+    const topPinnedRowsIds = (pinnedRows == null ? void 0 : (_pinnedRows$top = pinnedRows.top) == null ? void 0 : _pinnedRows$top.map((row) => row.id)) || [];
+    const bottomPinnedRowsIds = (pinnedRows == null ? void 0 : (_pinnedRows$bottom = pinnedRows.bottom) == null ? void 0 : _pinnedRows$bottom.map((row) => row.id)) || [];
     bodyRows.unshift(...topPinnedRowsIds);
     bodyRows.push(...bottomPinnedRowsIds);
     if (selectedRows.size > 0) {
@@ -72057,7 +72057,7 @@ Please use another name.` : formatMuiErrorMessage(18));
           colIndex = nextCellColSpanInfo.rightVisibleCellIndex;
         }
       }
-      const rowIndexRelativeToAllRows = visibleSortedRows.findIndex((row2) => row2.id === rowId);
+      const rowIndexRelativeToAllRows = visibleSortedRows.findIndex((row) => row.id === rowId);
       logger.debug(`Navigating to cell row ${rowIndexRelativeToAllRows}, col ${colIndex}`);
       apiRef.current.scrollToIndexes({
         colIndex,
@@ -72275,7 +72275,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       const direction = theme.direction;
       const viewportPageSize = apiRef.current.getViewportPageSize();
       const colIndexBefore = params.field ? apiRef.current.getColumnIndex(params.field) : 0;
-      const rowIndexBefore = currentPageRows.findIndex((row2) => row2.id === params.id);
+      const rowIndexBefore = currentPageRows.findIndex((row) => row.id === params.id);
       const firstRowIndexInPage = 0;
       const lastRowIndexInPage = currentPageRows.length - 1;
       const firstColIndex = 0;
@@ -72914,8 +72914,8 @@ Please use another name.` : formatMuiErrorMessage(18));
           }
         };
         try {
-          const row2 = apiRef.current.getRow(id);
-          Promise.resolve(processRowUpdate(rowUpdate, row2)).then((finalRowUpdate) => {
+          const row = apiRef.current.getRow(id);
+          Promise.resolve(processRowUpdate(rowUpdate, row)).then((finalRowUpdate) => {
             apiRef.current.updateRows([finalRowUpdate]);
             finishCellEditMode();
           }).catch(handleError);
@@ -72939,7 +72939,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       throwIfNotEditable(id, field);
       throwIfNotInMode(id, field, GridCellModes.Edit);
       const column2 = apiRef.current.getColumn(field);
-      const row2 = apiRef.current.getRow(id);
+      const row = apiRef.current.getRow(id);
       let parsedValue = value;
       if (column2.valueParser && !skipValueParser) {
         parsedValue = column2.valueParser(value, apiRef.current.getCellParams(id, field));
@@ -72957,7 +72957,7 @@ Please use another name.` : formatMuiErrorMessage(18));
         updateOrDeleteFieldState(id, field, newProps);
         newProps = await Promise.resolve(column2.preProcessEditCellProps({
           id,
-          row: row2,
+          row,
           props: newProps,
           hasChanged
         }));
@@ -72977,7 +72977,7 @@ Please use another name.` : formatMuiErrorMessage(18));
     const getRowWithUpdatedValuesFromCellEditing = React242.useCallback((id, field) => {
       const column2 = apiRef.current.getColumn(field);
       const editingState = gridEditRowsStateSelector(apiRef.current.state);
-      const row2 = apiRef.current.getRow(id);
+      const row = apiRef.current.getRow(id);
       if (!editingState[id] || !editingState[id][field]) {
         return apiRef.current.getRow(id);
       }
@@ -72986,8 +72986,8 @@ Please use another name.` : formatMuiErrorMessage(18));
       } = editingState[id][field];
       return column2.valueSetter ? column2.valueSetter({
         value,
-        row: row2
-      }) : _extends4({}, row2, {
+        row
+      }) : _extends4({}, row, {
         [field]: value
       });
     }, [apiRef]);
@@ -73358,7 +73358,7 @@ Please use another name.` : formatMuiErrorMessage(18));
         return;
       }
       const editingState = gridEditRowsStateSelector(apiRef.current.state);
-      const row2 = apiRef.current.getRow(id);
+      const row = apiRef.current.getRow(id);
       const isSomeFieldProcessingProps = Object.values(editingState[id]).some((fieldProps) => fieldProps.isProcessingProps);
       if (isSomeFieldProcessingProps) {
         prevRowModesModel.current[id].mode = GridRowModes.Edit;
@@ -73386,7 +73386,7 @@ Please use another name.` : formatMuiErrorMessage(18));
           }
         };
         try {
-          Promise.resolve(processRowUpdate(rowUpdate, row2)).then((finalRowUpdate) => {
+          Promise.resolve(processRowUpdate(rowUpdate, row)).then((finalRowUpdate) => {
             apiRef.current.updateRows([finalRowUpdate]);
             finishRowEditMode();
           }).catch(handleError);
@@ -73408,7 +73408,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       } = params;
       throwIfNotEditable(id, field);
       const column2 = apiRef.current.getColumn(field);
-      const row2 = apiRef.current.getRow(id);
+      const row = apiRef.current.getRow(id);
       let parsedValue = value;
       if (column2.valueParser && !skipValueParser) {
         parsedValue = column2.valueParser(value, apiRef.current.getCellParams(id, field));
@@ -73432,7 +73432,7 @@ Please use another name.` : formatMuiErrorMessage(18));
           const _editingState$id = editingState[id], otherFieldsProps = _objectWithoutPropertiesLoose2(_editingState$id, [field].map(_toPropertyKey));
           const promise = Promise.resolve(column2.preProcessEditCellProps({
             id,
-            row: row2,
+            row,
             props: newProps,
             hasChanged,
             otherFieldsProps
@@ -73466,7 +73466,7 @@ Please use another name.` : formatMuiErrorMessage(18));
           const _editingState$id2 = editingState[id], otherFieldsProps = _objectWithoutPropertiesLoose2(_editingState$id2, [thisField].map(_toPropertyKey));
           const promise = Promise.resolve(fieldColumn.preProcessEditCellProps({
             id,
-            row: row2,
+            row,
             props: fieldProps,
             hasChanged: false,
             otherFieldsProps
@@ -73494,11 +73494,11 @@ Please use another name.` : formatMuiErrorMessage(18));
     }, [apiRef, throwIfNotEditable, updateOrDeleteFieldState]);
     const getRowWithUpdatedValuesFromRowEditing = React243.useCallback((id) => {
       const editingState = gridEditRowsStateSelector(apiRef.current.state);
-      const row2 = apiRef.current.getRow(id);
+      const row = apiRef.current.getRow(id);
       if (!editingState[id]) {
         return apiRef.current.getRow(id);
       }
-      let rowUpdate = _extends4({}, row2);
+      let rowUpdate = _extends4({}, row);
       Object.entries(editingState[id]).forEach(([field, fieldProps]) => {
         const column2 = apiRef.current.getColumn(field);
         if (column2.valueSetter) {
@@ -73858,7 +73858,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       apiRef.current.setState((state) => {
         const group = gridRowTreeSelector(state, apiRef.current.instanceId)[GRID_ROOT_GROUP_ID];
         const allRows = group.children;
-        const oldIndex = allRows.findIndex((row2) => row2 === rowId);
+        const oldIndex = allRows.findIndex((row) => row === rowId);
         if (oldIndex === -1 || oldIndex === targetIndex) {
           return state;
         }
@@ -74143,21 +74143,21 @@ Please use another name.` : formatMuiErrorMessage(18));
       colDef: apiRef.current.getColumn(field)
     }), [apiRef]);
     const getRowParams = React246.useCallback((id) => {
-      const row2 = apiRef.current.getRow(id);
-      if (!row2) {
+      const row = apiRef.current.getRow(id);
+      if (!row) {
         throw new Error(`No row with id #${id} found`);
       }
       const params = {
         id,
         columns: apiRef.current.getAllColumns(),
-        row: row2
+        row
       };
       return params;
     }, [apiRef]);
     const getBaseCellParams = React246.useCallback((id, field) => {
-      const row2 = apiRef.current.getRow(id);
+      const row = apiRef.current.getRow(id);
       const rowNode = apiRef.current.getRowNode(id);
-      if (!row2 || !rowNode) {
+      if (!row || !rowNode) {
         throw new Error(`No row with id #${id} found`);
       }
       const cellFocus = gridFocusCellSelector(apiRef);
@@ -74165,9 +74165,9 @@ Please use another name.` : formatMuiErrorMessage(18));
       const params = {
         id,
         field,
-        row: row2,
+        row,
         rowNode,
-        value: row2[field],
+        value: row[field],
         colDef: apiRef.current.getColumn(field),
         cellMode: apiRef.current.getCellMode(id, field),
         api: apiRef.current,
@@ -74179,9 +74179,9 @@ Please use another name.` : formatMuiErrorMessage(18));
     const getCellParams = React246.useCallback((id, field) => {
       const colDef = apiRef.current.getColumn(field);
       const value = apiRef.current.getCellValue(id, field);
-      const row2 = apiRef.current.getRow(id);
+      const row = apiRef.current.getRow(id);
       const rowNode = apiRef.current.getRowNode(id);
-      if (!row2 || !rowNode) {
+      if (!row || !rowNode) {
         throw new Error(`No row with id #${id} found`);
       }
       const cellFocus = gridFocusCellSelector(apiRef);
@@ -74189,7 +74189,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       const params = {
         id,
         field,
-        row: row2,
+        row,
         rowNode,
         colDef,
         cellMode: apiRef.current.getCellMode(id, field),
@@ -74538,7 +74538,7 @@ Please use another name.` : formatMuiErrorMessage(18));
               end2 = previousRowIndex;
             }
           }
-          const rowsBetweenStartAndEnd = visibleRows.rows.slice(start2, end2 + 1).map((row2) => row2.id);
+          const rowsBetweenStartAndEnd = visibleRows.rows.slice(start2, end2 + 1).map((row) => row.id);
           apiRef.current.selectRows(rowsBetweenStartAndEnd, !isNextRowSelected);
           return;
         }
@@ -74891,7 +74891,7 @@ Please use another name.` : formatMuiErrorMessage(18));
     const getSortModel = React249.useCallback(() => gridSortModelSelector(apiRef), [apiRef]);
     const getSortedRows = React249.useCallback(() => {
       const sortedRows = gridSortedRowEntriesSelector(apiRef);
-      return sortedRows.map((row2) => row2.model);
+      return sortedRows.map((row) => row.model);
     }, [apiRef]);
     const getSortedRowIds = React249.useCallback(() => gridSortedRowIdsSelector(apiRef), [apiRef]);
     const getRowIdFromRowIndex = React249.useCallback((index) => apiRef.current.getSortedRowIds()[index], [apiRef]);
@@ -75428,8 +75428,8 @@ Please use another name.` : formatMuiErrorMessage(18));
         buffer: rootProps.rowBuffer
       });
       for (let i = firstRowToRender; i < lastRowToRender && !hasRowWithAutoHeight; i += 1) {
-        const row2 = currentPage.rows[i];
-        hasRowWithAutoHeight = apiRef.current.rowHasAutoHeight(row2.id);
+        const row = currentPage.rows[i];
+        hasRowWithAutoHeight = apiRef.current.rowHasAutoHeight(row.id);
       }
       if (!hasRowWithAutoHeight) {
         firstColumnIndex = binarySearch(Math.abs(left2), columnPositions);
@@ -75603,10 +75603,10 @@ Please use another name.` : formatMuiErrorMessage(18));
       });
       const renderedRows = [];
       if (params.rows) {
-        params.rows.forEach((row2) => {
-          renderedRows.push(row2);
+        params.rows.forEach((row) => {
+          renderedRows.push(row);
           apiRef.current.calculateColSpan({
-            rowId: row2.id,
+            rowId: row.id,
             minFirstColumn,
             maxLastColumn,
             columns: visibleColumns
@@ -75617,10 +75617,10 @@ Please use another name.` : formatMuiErrorMessage(18));
           return null;
         }
         for (let i = firstRowToRender; i < lastRowToRender; i += 1) {
-          const row2 = currentPage.rows[i];
-          renderedRows.push(row2);
+          const row = currentPage.rows[i];
+          renderedRows.push(row);
           apiRef.current.calculateColSpan({
-            rowId: row2.id,
+            rowId: row.id,
             minFirstColumn,
             maxLastColumn,
             columns: visibleColumns
@@ -76636,9 +76636,9 @@ Please use another name.` : formatMuiErrorMessage(18));
     const hydrateRowsMeta = React262.useCallback(() => {
       var _pinnedRows$top, _pinnedRows$bottom;
       hasRowWithAutoHeight.current = false;
-      const calculateRowProcessedSizes = (row2) => {
-        if (!rowsHeightLookup.current[row2.id]) {
-          rowsHeightLookup.current[row2.id] = {
+      const calculateRowProcessedSizes = (row) => {
+        if (!rowsHeightLookup.current[row.id]) {
+          rowsHeightLookup.current[row.id] = {
             sizes: {
               baseCenter: rowHeight
             },
@@ -76652,18 +76652,18 @@ Please use another name.` : formatMuiErrorMessage(18));
           isResized,
           needsFirstMeasurement,
           sizes
-        } = rowsHeightLookup.current[row2.id];
+        } = rowsHeightLookup.current[row.id];
         let baseRowHeight = typeof rowHeight === "number" && rowHeight > 0 ? rowHeight : 52;
         const existingBaseRowHeight = sizes.baseCenter;
         if (isResized) {
           baseRowHeight = existingBaseRowHeight;
         } else if (getRowHeightProp) {
-          const rowHeightFromUser = getRowHeightProp(_extends4({}, row2, {
+          const rowHeightFromUser = getRowHeightProp(_extends4({}, row, {
             densityFactor
           }));
           if (rowHeightFromUser === "auto") {
             if (needsFirstMeasurement) {
-              const estimatedRowHeight = getEstimatedRowHeight ? getEstimatedRowHeight(_extends4({}, row2, {
+              const estimatedRowHeight = getEstimatedRowHeight ? getEstimatedRowHeight(_extends4({}, row, {
                 densityFactor
               })) : rowHeight;
               baseRowHeight = estimatedRowHeight != null ? estimatedRowHeight : rowHeight;
@@ -76671,14 +76671,14 @@ Please use another name.` : formatMuiErrorMessage(18));
               baseRowHeight = existingBaseRowHeight;
             }
             hasRowWithAutoHeight.current = true;
-            rowsHeightLookup.current[row2.id].autoHeight = true;
+            rowsHeightLookup.current[row.id].autoHeight = true;
           } else {
             baseRowHeight = getValidRowHeight(rowHeightFromUser, rowHeight, getRowHeightWarning);
-            rowsHeightLookup.current[row2.id].needsFirstMeasurement = false;
-            rowsHeightLookup.current[row2.id].autoHeight = false;
+            rowsHeightLookup.current[row.id].needsFirstMeasurement = false;
+            rowsHeightLookup.current[row.id].autoHeight = false;
           }
         } else {
-          rowsHeightLookup.current[row2.id].needsFirstMeasurement = false;
+          rowsHeightLookup.current[row.id].needsFirstMeasurement = false;
         }
         const existingBaseSizes = Object.entries(sizes).reduce((acc, [key, size]) => {
           if (/^base[A-Z]/.test(key)) {
@@ -76691,8 +76691,8 @@ Please use another name.` : formatMuiErrorMessage(18));
         });
         if (getRowSpacing) {
           var _spacing$top, _spacing$bottom;
-          const indexRelativeToCurrentPage = apiRef.current.getRowIndexRelativeToVisibleRows(row2.id);
-          const spacing2 = getRowSpacing(_extends4({}, row2, {
+          const indexRelativeToCurrentPage = apiRef.current.getRowIndexRelativeToVisibleRows(row.id);
+          const spacing2 = getRowSpacing(_extends4({}, row, {
             isFirstVisible: indexRelativeToCurrentPage === 0,
             isLastVisible: indexRelativeToCurrentPage === currentPage.rows.length - 1,
             indexRelativeToCurrentPage
@@ -76700,16 +76700,16 @@ Please use another name.` : formatMuiErrorMessage(18));
           initialHeights.spacingTop = (_spacing$top = spacing2.top) != null ? _spacing$top : 0;
           initialHeights.spacingBottom = (_spacing$bottom = spacing2.bottom) != null ? _spacing$bottom : 0;
         }
-        const processedSizes = apiRef.current.unstable_applyPipeProcessors("rowHeight", initialHeights, row2);
-        rowsHeightLookup.current[row2.id].sizes = processedSizes;
+        const processedSizes = apiRef.current.unstable_applyPipeProcessors("rowHeight", initialHeights, row);
+        rowsHeightLookup.current[row.id].sizes = processedSizes;
         return processedSizes;
       };
       const positions = [];
-      const currentPageTotalHeight = currentPage.rows.reduce((acc, row2) => {
+      const currentPageTotalHeight = currentPage.rows.reduce((acc, row) => {
         positions.push(acc);
         let maximumBaseSize = 0;
         let otherSizes = 0;
-        const processedSizes = calculateRowProcessedSizes(row2);
+        const processedSizes = calculateRowProcessedSizes(row);
         Object.entries(processedSizes).forEach(([size, value]) => {
           if (/^base[A-Z]/.test(size)) {
             maximumBaseSize = value > maximumBaseSize ? value : maximumBaseSize;
@@ -76719,11 +76719,11 @@ Please use another name.` : formatMuiErrorMessage(18));
         });
         return acc + maximumBaseSize + otherSizes;
       }, 0);
-      pinnedRows == null ? void 0 : (_pinnedRows$top = pinnedRows.top) == null ? void 0 : _pinnedRows$top.forEach((row2) => {
-        calculateRowProcessedSizes(row2);
+      pinnedRows == null ? void 0 : (_pinnedRows$top = pinnedRows.top) == null ? void 0 : _pinnedRows$top.forEach((row) => {
+        calculateRowProcessedSizes(row);
       });
-      pinnedRows == null ? void 0 : (_pinnedRows$bottom = pinnedRows.bottom) == null ? void 0 : _pinnedRows$bottom.forEach((row2) => {
-        calculateRowProcessedSizes(row2);
+      pinnedRows == null ? void 0 : (_pinnedRows$bottom = pinnedRows.bottom) == null ? void 0 : _pinnedRows$bottom.forEach((row) => {
+        calculateRowProcessedSizes(row);
       });
       apiRef.current.setState((state) => {
         return _extends4({}, state, {
@@ -80050,9 +80050,19 @@ Please use another name.` : formatMuiErrorMessage(18));
 
   // src/js/services/UsersService.js
   var USER = "USER";
+  var TOKEN = "TOKEN";
+  var buildHeaders = (args) => {
+    return {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`
+    };
+  };
   var createSession = (args) => {
     localStorage.setItem("TOKEN", args.employeeId);
     localStorage.setItem("USER", JSON.stringify(args.email));
+  };
+  var getToken = () => {
+    return localStorage.getItem(TOKEN);
   };
   var getUsers = () => {
     return axios_default.get(`${API_BASE_URL}/revalida/users/get`);
@@ -80074,16 +80084,38 @@ Please use another name.` : formatMuiErrorMessage(18));
     return getCurrentUser() != false;
   };
 
+  // src/js/services/EmployeeService.js
+  var insertData = (args) => {
+    return axios_default.post(`${API_BASE_URL}/revalida/users/insert`, args, { headers: buildHeaders() });
+  };
+
   // src/js/admin/EmployeeList.js
   function CustomToolbar() {
     return /* @__PURE__ */ import_react22.default.createElement(GridToolbarContainer, null, /* @__PURE__ */ import_react22.default.createElement(GridToolbarColumnsButton, { sx: { color: "#4b6043" } }), /* @__PURE__ */ import_react22.default.createElement(GridToolbarFilterButton, { sx: { color: "#4b6043" } }), /* @__PURE__ */ import_react22.default.createElement(GridToolbarDensitySelector, { sx: { color: "#4b6043" } }), /* @__PURE__ */ import_react22.default.createElement(GridToolbarExport, { sx: { color: "#4b6043" } }));
   }
   var Employee = () => {
     const [userDetails, setUserDetails] = (0, import_react22.useState)([]);
-    const [isLoaded, setIsLoaded] = (0, import_react22.useState)(false);
+    const [user, setUser] = (0, import_react22.useState)({
+      firstName: "",
+      middleName: "",
+      birthDate: "",
+      gender: "",
+      email: "",
+      mobileNumber: "",
+      department: "",
+      position: "",
+      password: ""
+    });
+    const register = (args) => {
+      insertData(user).then((response) => {
+        window.location.reload();
+      }).catch((response) => {
+        alert("Error: not able to register employee");
+        console.log(response);
+      });
+    };
     const refresh = () => {
       getUsers().then((response) => {
-        setIsLoaded(true);
         console.log(response.data);
         setUserDetails(response.data);
       });
@@ -80109,6 +80141,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       { field: "department", headerName: "Department", ...columnOptions },
       { field: "position", headerName: "Position", ...columnOptions },
       { field: "email", headerName: "Email", ...columnOptions },
+      { field: "password", headerName: "Password", ...columnOptions },
       { field: "Action", renderCell: (cellValues) => {
         return /* @__PURE__ */ import_react22.default.createElement(import_react22.default.Fragment, null, /* @__PURE__ */ import_react22.default.createElement("center", null, /* @__PURE__ */ import_react22.default.createElement(Button_default, { variant: "outlined", size: "sm", color: "primary", onClick: () => setModalUpdateOpen(!modalRegisterOpen) }, " update  "), " \u2003", /* @__PURE__ */ import_react22.default.createElement(Button_default, { variant: "outlined", size: "sm", color: "error", onClick: () => setModalDeleteOpen(!modalDeleteOpen) }, " delete  ")));
       }, ...columnOptions }
@@ -80116,10 +80149,7 @@ Please use another name.` : formatMuiErrorMessage(18));
     const [modalRegisterOpen, setModalRegisterOpen] = (0, import_react22.useState)(false);
     const [modalUpdateOpen, setModalUpdateOpen] = (0, import_react22.useState)(false);
     const [modalDeleteOpen, setModalDeleteOpen] = (0, import_react22.useState)(false);
-    return /* @__PURE__ */ import_react22.default.createElement(import_react22.default.Fragment, null, /* @__PURE__ */ import_react22.default.createElement(Card_default, { sx: { maxWidth: "85%", marginLeft: "15vh" } }, /* @__PURE__ */ import_react22.default.createElement(CardContent_default, null, /* @__PURE__ */ import_react22.default.createElement(Typography_default, { variant: "h3", gutterBottom: true }, " Employee "), " ", /* @__PURE__ */ import_react22.default.createElement("hr", null), " ", /* @__PURE__ */ import_react22.default.createElement("br", null), /* @__PURE__ */ import_react22.default.createElement(Container_default, { sx: { display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "flex-end", gap: "1rem", padding: "10px" } }, /* @__PURE__ */ import_react22.default.createElement(Button_default, { variant: "outlined", color: "success", onClick: () => {
-      console.log(row);
-      setModalRegisterOpen(!modalRegisterOpen);
-    } }, " ", /* @__PURE__ */ import_react22.default.createElement(PersonAddAlt1_default, null), " \xA0 Register  "), /* @__PURE__ */ import_react22.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, null, /* @__PURE__ */ import_react22.default.createElement(Input_default2, { startDecorator: /* @__PURE__ */ import_react22.default.createElement(PersonSearch_default, null), placeholder: "Search", sx: { float: "right", width: "40vh" } })))), /* @__PURE__ */ import_react22.default.createElement(Modal_default2, { open: modalRegisterOpen }, /* @__PURE__ */ import_react22.default.createElement(
+    return /* @__PURE__ */ import_react22.default.createElement(import_react22.default.Fragment, null, /* @__PURE__ */ import_react22.default.createElement(Card_default, { sx: { maxWidth: "85%", marginLeft: "15vh" } }, /* @__PURE__ */ import_react22.default.createElement(CardContent_default, null, /* @__PURE__ */ import_react22.default.createElement(Typography_default, { variant: "h3", gutterBottom: true }, " Employee "), " ", /* @__PURE__ */ import_react22.default.createElement("hr", null), " ", /* @__PURE__ */ import_react22.default.createElement("br", null), /* @__PURE__ */ import_react22.default.createElement(Container_default, { sx: { display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "flex-end", gap: "1rem", padding: "10px" } }, /* @__PURE__ */ import_react22.default.createElement(Button_default, { variant: "outlined", color: "success", onClick: () => setModalRegisterOpen(!modalRegisterOpen) }, " ", /* @__PURE__ */ import_react22.default.createElement(PersonAddAlt1_default, null), " \xA0 Register  "), /* @__PURE__ */ import_react22.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, null, /* @__PURE__ */ import_react22.default.createElement(Input_default2, { startDecorator: /* @__PURE__ */ import_react22.default.createElement(PersonSearch_default, null), placeholder: "Search", sx: { float: "right", width: "40vh" } })))), /* @__PURE__ */ import_react22.default.createElement(Modal_default2, { open: modalRegisterOpen }, /* @__PURE__ */ import_react22.default.createElement(
       ModalDialog_default,
       {
         "aria-labelledby": "basic-modal-dialog-title",
@@ -80128,14 +80158,58 @@ Please use another name.` : formatMuiErrorMessage(18));
       },
       /* @__PURE__ */ import_react22.default.createElement(ModalClose_default, { onClick: () => setModalRegisterOpen(false) }),
       /* @__PURE__ */ import_react22.default.createElement(Typography_default, { id: "basic-modal-dialog-title", component: "h1", sx: { padding: "10px" } }, " ", /* @__PURE__ */ import_react22.default.createElement(PersonAddAlt1_default, null), " Register an Employee "),
-      /* @__PURE__ */ import_react22.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react22.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react22.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(AccountCircle_default, null), placeholder: "Input First Name" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Middle Name "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(AccountCircle_default, null), placeholder: "Input Middle Name" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Birthday "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", type: "date", placeholder: "Birthday" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Gender "), /* @__PURE__ */ import_react22.default.createElement(RadioGroup_default, { size: "sm" }, /* @__PURE__ */ import_react22.default.createElement(
+      /* @__PURE__ */ import_react22.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react22.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react22.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          value: user.firstName,
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react22.default.createElement(AccountCircle_default, null),
+          placeholder: "Input First Name",
+          onChange: (event) => {
+            let obj = { ...user };
+            obj.firstName = event.target.value;
+            setUser(obj);
+          }
+        }
+      )), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          value: user.lastName,
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react22.default.createElement(AccountCircle_default, null),
+          placeholder: "Input Middle Name",
+          onChange: (event) => {
+            let obj = { ...user };
+            obj.lastName = event.target.value;
+            setUser(obj);
+          }
+        }
+      )), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Birthday "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          value: user.birthday,
+          size: "sm",
+          type: "date",
+          placeholder: "Birthday",
+          onChange: (event) => {
+            let obj = { ...user };
+            obj.birthDate = event.target.value;
+            setUser(obj);
+          }
+        }
+      )), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Gender "), /* @__PURE__ */ import_react22.default.createElement(RadioGroup_default, { size: "sm", name: "gender" }, /* @__PURE__ */ import_react22.default.createElement(
         Radio_default,
         {
           value: "Male",
           name: "radio-buttons",
           label: "Male",
           size: "md",
-          slotProps: { input: { "aria-label": "Male" } }
+          slotProps: { input: { "aria-label": "Male" } },
+          onClick: (event) => {
+            let obj = { ...user };
+            obj.gender = event.target.value;
+            setUser(obj);
+          }
         }
       ), " ", /* @__PURE__ */ import_react22.default.createElement("br", null), /* @__PURE__ */ import_react22.default.createElement(
         Radio_default,
@@ -80144,9 +80218,93 @@ Please use another name.` : formatMuiErrorMessage(18));
           name: "radio-buttons",
           label: "Female",
           size: "md",
-          slotProps: { input: { "aria-label": "Female" } }
+          slotProps: { input: { "aria-label": "Female" } },
+          onClick: (event) => {
+            let obj = { ...user };
+            obj.gender = event.target.value;
+            setUser(obj);
+          }
         }
-      )))), /* @__PURE__ */ import_react22.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(AccountCircle_default, null), placeholder: "Input Last Name" })))), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(AlternateEmail_default, null), type: "email", placeholder: "Input Email" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(ContactPage_default, null), type: "number", placeholder: "Input Mobile Number" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", placeholder: "Input Department" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", placeholder: "Input Position" })), /* @__PURE__ */ import_react22.default.createElement(Button_default, { variant: "soft", sx: { float: "right", backgroundColor: "#C5D8A4", color: "#534340" } }, " Register "))
+      )))), /* @__PURE__ */ import_react22.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Middle Name "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          value: user.middleNames,
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react22.default.createElement(AccountCircle_default, null),
+          placeholder: "Input Last Name",
+          onChange: (event) => {
+            let obj = { ...user };
+            obj.middleName = event.target.value;
+            setUser(obj);
+          }
+        }
+      )))), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          value: user.email,
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react22.default.createElement(AlternateEmail_default, null),
+          type: "email",
+          placeholder: "Input Email",
+          onChange: (event) => {
+            let obj = { ...user };
+            obj.email = event.target.value;
+            setUser(obj);
+          }
+        }
+      )), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          value: user.mobileNumber,
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react22.default.createElement(ContactPage_default, null),
+          type: "number",
+          placeholder: "Input Mobile Number",
+          onChange: (event) => {
+            let obj = { ...user };
+            obj.mobileNumber = event.target.value;
+            setUser(obj);
+          }
+        }
+      )), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          value: user.department,
+          size: "sm",
+          placeholder: "Input Department",
+          onChange: (event) => {
+            let obj = { ...user };
+            obj.department = event.target.value;
+            setUser(obj);
+          }
+        }
+      )), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          value: user.position,
+          size: "sm",
+          placeholder: "Input Position",
+          onChange: (event) => {
+            let obj = { ...user };
+            obj.position = event.target.value;
+            setUser(obj);
+          }
+        }
+      )), /* @__PURE__ */ import_react22.default.createElement(
+        Button_default,
+        {
+          variant: "soft",
+          sx: {
+            float: "right",
+            backgroundColor: "#C5D8A4",
+            color: "#534340"
+          },
+          onClick: () => {
+            register();
+          }
+        },
+        " Register "
+      ))
     )), /* @__PURE__ */ import_react22.default.createElement(Modal_default2, { open: modalUpdateOpen }, /* @__PURE__ */ import_react22.default.createElement(
       ModalDialog_default,
       {
@@ -80174,7 +80332,14 @@ Please use another name.` : formatMuiErrorMessage(18));
           size: "md",
           slotProps: { input: { "aria-label": "Female" } }
         }
-      )))), /* @__PURE__ */ import_react22.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(AccountCircle_default, null), placeholder: "Input Last Name" })))), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(AlternateEmail_default, null), type: "email", placeholder: "Input Email" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(ContactPage_default, null), type: "number", placeholder: "Input Mobile Number" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", placeholder: "Input Department" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", placeholder: "Input Position" })), /* @__PURE__ */ import_react22.default.createElement(Button_default, { variant: "soft", sx: { float: "right", backgroundColor: "#C5D8A4", color: "#534340" } }, " Update "))
+      )))), /* @__PURE__ */ import_react22.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react22.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react22.default.createElement(AccountCircle_default, null),
+          placeholder: "Input Last Name"
+        }
+      )))), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(AlternateEmail_default, null), type: "email", placeholder: "Input Email" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react22.default.createElement(ContactPage_default, null), type: "number", placeholder: "Input Mobile Number" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", placeholder: "Input Department" })), /* @__PURE__ */ import_react22.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react22.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react22.default.createElement(Input_default2, { size: "sm", placeholder: "Input Position" })), /* @__PURE__ */ import_react22.default.createElement(Button_default, { variant: "soft", sx: { float: "right", backgroundColor: "#C5D8A4", color: "#534340" } }, " Update "))
     )), /* @__PURE__ */ import_react22.default.createElement(Modal_default2, { open: modalDeleteOpen }, /* @__PURE__ */ import_react22.default.createElement(
       ModalDialog_default,
       {
@@ -80200,7 +80365,7 @@ Please use another name.` : formatMuiErrorMessage(18));
         initialState: {
           pagination: {
             paginationModel: {
-              pageSize: 10
+              pageSize: 5
             }
           }
         },
