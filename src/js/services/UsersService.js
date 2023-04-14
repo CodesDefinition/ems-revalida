@@ -2,20 +2,24 @@ import React from "react";
 import axios from "axios";
 import { API_BASE_URL } from "env";
 
-const USER = "USER";
-const TOKEN = "TOKEN";
+export const USER = "USER";
+export const ID = "ID";
+export const TOKEN = "TOKEN";
+export const USERTYPE = "USERTYPE";
 
-export const buildHeaders = (args) => {
+export const buildHeaders = () => {
   return {
     "Content-Type": "application/json",
     Authorization: `Bearer ${getToken()}`,
   };
 };
 
-export const createSession = (args) => {
+export const createSession = (token, id, username, userType) => {
   //HTML5 LocalStorage
-  localStorage.setItem("TOKEN", args.employeeId);
-  localStorage.setItem("USER", JSON.stringify(args.email));
+  localStorage.setItem(TOKEN, token);
+  localStorage.setItem(ID, id);
+  localStorage.setItem(USER, JSON.stringify(username));
+  localStorage.setItem(USERTYPE, userType);
 };
 
 export const destroySession = () => {
@@ -27,11 +31,11 @@ export const getToken = () => {
   return localStorage.getItem(TOKEN);
 };
 
-export const getUsers = () => {
-  return axios.get(`${API_BASE_URL}/revalida/users/get`);
+export const isLoggedIn = () => {
+  return getCurrentUser() != false;
 };
 
-export const getUser = (username, password) => {
+export const authenticate = (username, password) => {
   return axios.get(
     `${API_BASE_URL}/revalida/users/get/query?username=${username}&password=${password}`
   );
@@ -46,6 +50,33 @@ export const getCurrentUser = () => {
   }
 };
 
-export const isLoggedIn = () => {
-  return getCurrentUser() != false;
+//CRUD operations
+export const getUsers = () => {
+  return axios.get(`${API_BASE_URL}/revalida/users/get`, {
+    headers: buildHeaders(),
+  });
+};
+
+export const getUserById = (id) => {
+  return axios.get(`${API_BASE_URL}/revalida/users/get/${id}`, {
+    headers: buildHeaders(),
+  });
+};
+
+export const createUser = (args) => {
+  return axios.put(`${API_BASE_URL}/revalida/users/insert`, args, {
+    headers: buildHeaders(),
+  });
+};
+
+export const updateUser = (args) => {
+  return axios.put(`${API_BASE_URL}/revalida/users/update`, args, {
+    headers: buildHeaders(),
+  });
+};
+
+export const deleteUser = (id) => {
+  return axios.delete(`${API_BASE_URL}/revalida/users/delete/${id}`, {
+    headers: buildHeaders(),
+  });
 };

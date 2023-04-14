@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Card, CardContent, Container, Button, Typography} from '@mui/material';
 import {Modal, ModalDialog, ModalClose, 
         FormControl, FormLabel, Input, 
@@ -11,7 +11,7 @@ import {DataGrid, GridToolbarContainer,
 import {PersonAddAlt1, AccountCircle, AlternateEmail, 
                         ContactPage, ManageAccounts, 
                         PersonRemove, PersonSearch} from '@mui/icons-material';
-import {getUsers} from '../services/UsersService';
+import {getUserById, getUsers} from '../services/UsersService';
 
 function CustomToolbar() {
     return (
@@ -25,9 +25,40 @@ function CustomToolbar() {
 }
 
 const Employee = () => {
-
-    const [userDetails, setUserDetails] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [userDetails, setUserDetails] = useState([]);
+
+    const [createNewUser, setCreateNewUser] = useState({
+        employeeId: "",
+        email: "",
+        mobileNumber: "",
+        password: "",
+        userType: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        department: "",
+        birthDate: "",
+        gender: "",
+        position: "",
+      });
+
+    //for updating individual users
+    const [getCurrentId, setGetCurrentId] = useState(-1);
+    const [currentUserUpdate, setCurrentUserUpdate] = useState({
+        employeeId: "",
+        email: "",
+        mobileNumber: "",
+        password: "",
+        userType: "",
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        department: "",
+        birthDate: "",
+        gender: "",
+        position: "",
+      });
     
     const refresh = () => {
         getUsers().then((response) => {
@@ -51,6 +82,7 @@ const Employee = () => {
       };
 
       const columns = [
+        { field: "employeeId", headerName: "Employee ID", ...columnOptions },
         { field: "lastName", headerName: "Last Name", ...columnOptions },
         { field: "firstName", headerName: "First Name", ...columnOptions },
         { field: "middleName", headerName: "Middle Name", ...columnOptions },
@@ -64,7 +96,7 @@ const Employee = () => {
             return (
                 <>
                     <center>
-                        <Button variant = "outlined" size = "sm" color = "primary" onClick = {() => setModalUpdateOpen(!modalRegisterOpen)}> update  </Button> &emsp;
+                        <Button variant = "outlined" size = "sm" color = "primary" onClick = {() => {setCurrentUserUpdate(userDetails); setModalUpdateOpen(!modalRegisterOpen);}}> update  </Button> &emsp;
                         <Button variant = "outlined" size = "sm"  color = "error" onClick = {() => setModalDeleteOpen(!modalDeleteOpen)}> delete  </Button>
                     </center>
                 </>
@@ -76,15 +108,14 @@ const Employee = () => {
       const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
       const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
 
+      console.log(getCurrentId, 'heyyyyyyyyyyyyyyy');
     return (
         <React.Fragment>
-            
             <Card sx = {{maxWidth: "85%", marginLeft: "15vh"}}>
                 <CardContent>
                     <Typography variant = "h3" gutterBottom> Employee </Typography> <hr/> <br />
                     <Container sx = {{display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "flex-end", gap: "1rem", padding: "10px"}}>
                         <Button variant = "outlined" color = "success" onClick = {() => {
-                            console.log(row);
                             setModalRegisterOpen(!modalRegisterOpen)
                         }}> <PersonAddAlt1 /> &nbsp; Register  </Button>
                         <form method = "" action = "">
@@ -105,7 +136,7 @@ const Employee = () => {
                                 <Grid xs = {6}>
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> First Name </FormLabel>
-                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input First Name"/> 
+                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input first Name" /> 
                                         </FormControl>
                                         
                                         <FormControl sx = {{padding: "5px"}}>
@@ -122,7 +153,7 @@ const Employee = () => {
                                             <FormLabel> Gender </FormLabel>
                                             <RadioGroup size = "sm">
                                                 <Radio
-                                                    value="Male"
+                                                    value= "male"
                                                     name="radio-buttons"
                                                     label = "Male"
                                                     size = "md"
@@ -241,7 +272,7 @@ const Employee = () => {
                                     <FormLabel> Position </FormLabel>
                                     <Input size = "sm" placeholder = "Input Position" />    
                                 </FormControl>
-                                <Button variant = "soft" sx = {{float: "right", backgroundColor: "#C5D8A4", color: "#534340"}}> Update </Button>
+                                <Button onClick={() => {getUserById()}} variant = "soft" sx = {{float: "right", backgroundColor: "#C5D8A4", color: "#534340"}}> Update </Button>
                             </form>
                         </ModalDialog>
                     </Modal>
@@ -259,6 +290,7 @@ const Employee = () => {
                     </Modal>
                     <DataGrid
                         getRowId = {userDetails => userDetails.employeeId}
+                        onRowClick={(userDetails)=>{setGetCurrentId(userDetails.employeeId)}}
                         rows = {userDetails}
                         columns = {columns}
                         editMode = "cell"
@@ -270,7 +302,7 @@ const Employee = () => {
                         initialState = {{
                             pagination: {
                                 paginationModel: {
-                                    pageSize: 10
+                                    pageSize: 2
                                 }
                             }
                         }}

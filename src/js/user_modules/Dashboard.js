@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -16,14 +16,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {
-  PersonAddAlt1,
-  AccountCircle,
-  AlternateEmail,
-  ContactPage,
-  ManageAccounts,
-  PersonRemove,
-} from "@mui/icons-material";
+import { ID, updateUser } from "../services/UsersService";
+import { getUserById } from "../services/UsersService";
 function Dashboard() {
   // variables for styles
   const matches = useMediaQuery("(max-width:1202px)");
@@ -68,25 +62,50 @@ function Dashboard() {
     fontSize: "18px",
   };
   //  states for user info
-  const [firstName, setFirstName] = useState("Mark");
-  const [middleName, setMiddleName] = useState("Cariño");
-  const [lastName, setLastName] = useState("Perez");
-  const [email, setEmail] = useState("mark@email.com");
-  const [number, setNumber] = useState("6665585288");
+  const [currentUser, setCurrentUser] = useState({
+    employeeId: "",
+    email: "",
+    mobileNumber: "",
+    password: "",
+    userType: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    department: "",
+    birthDate: "",
+    gender: "",
+    position: "",
+  });
+  //updatable fields
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   // functions
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
+
+  useEffect(() => {
+    getUserById(localStorage.getItem(ID)).then((response) => {
+      setCurrentUser(response.data);
+      setFirstName(response.data.firstName);
+      setMiddleName(response.data.middleName);
+      setLastName(response.data.lastName);
+      setEmail(response.data.email);
+      setMobileNumber(response.data.mobileNumber);
+    });
+  }, []);
+
   const handleSubmit = () => {
-    const payload = {
-      fname: firstName,
-      mname: middleName,
-      lname: lastName,
-      email: email,
-      number: number,
-    };
-    console.log(payload);
+    currentUser.firstName = firstName;
+    currentUser.middleName = middleName,
+    currentUser.lastName = lastName;
+    currentUser.email = email;
+    currentUser.mobileNumber = mobileNumber;
+    updateUser(currentUser);
     setModalUpdateOpen(!modalUpdateOpen);
   };
-
+  
   return (
     <Box
       sx={{
@@ -275,12 +294,12 @@ function Dashboard() {
             margin="dense"
             id="mobNum"
             label="Mobile Number"
-            value={number}
+            value={mobileNumber}
             type="number"
             fullWidth
             variant="standard"
             onChange={(e) => {
-              setNumber(e.target.value);
+              setMobileNumber(e.target.value);
             }}
           />
         </DialogContent>
@@ -320,7 +339,7 @@ function Dashboard() {
               mb: "1rem",
             }}
           >
-            Bartolome Tolome
+            {`${currentUser.lastName}, ${currentUser.firstName}`}
           </Typography>
           <Paper style={paperStyle}>
             <Grid container>
@@ -328,7 +347,7 @@ function Dashboard() {
                 Employee ID:
               </Grid>
               <Grid item sx={titleStyle}>
-                2320-87881
+                {currentUser.employeeId}
               </Grid>
             </Grid>
           </Paper>
@@ -338,7 +357,7 @@ function Dashboard() {
                 Employee Name:
               </Grid>
               <Grid item sx={titleStyle}>
-                Bartolome Tolome
+                {`${currentUser.lastName}, ${currentUser.firstName} ${currentUser.middleName}`}
               </Grid>
             </Grid>
           </Paper>
@@ -348,7 +367,7 @@ function Dashboard() {
                 Employee Email:
               </Grid>
               <Grid item sx={titleStyle}>
-                barto@email.com
+                {currentUser.email}
               </Grid>
             </Grid>
           </Paper>
@@ -358,7 +377,7 @@ function Dashboard() {
                 Department:
               </Grid>
               <Grid item sx={titleStyle}>
-                IT
+                {currentUser.department}
               </Grid>
             </Grid>
           </Paper>
@@ -368,7 +387,7 @@ function Dashboard() {
                 Position:
               </Grid>
               <Grid item sx={titleStyle}>
-                Assistant
+                {currentUser.position}
               </Grid>
             </Grid>
           </Paper>
@@ -378,7 +397,7 @@ function Dashboard() {
                 Mobile Number:
               </Grid>
               <Grid item sx={titleStyle}>
-                0985545485
+                {currentUser.mobileNumber}
               </Grid>
             </Grid>
           </Paper>
@@ -388,7 +407,9 @@ function Dashboard() {
                 Birthday:
               </Grid>
               <Grid item sx={titleStyle}>
-                Apr-20-2000
+                {new Date(currentUser.birthDate).toDateString() != "Invalid Date"
+                  ? new Date(currentUser.birthDate).toDateString()
+                  : ""}
               </Grid>
             </Grid>
           </Paper>
@@ -398,7 +419,7 @@ function Dashboard() {
                 Gender:
               </Grid>
               <Grid item sx={titleStyle}>
-                Male
+                {currentUser.gender}
               </Grid>
             </Grid>
           </Paper>
