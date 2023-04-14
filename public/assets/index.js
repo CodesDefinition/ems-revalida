@@ -59551,7 +59551,7 @@ Please use another name.` : formatMuiErrorMessage(18));
       setTab(value);
       if (value == 0) {
         console.log("Going home");
-        navigate("/userhome");
+        navigate("/user/homepage");
       } else if (value == 1) {
         console.log("Going about");
         navigate("/about");
@@ -81351,26 +81351,114 @@ Please use another name.` : formatMuiErrorMessage(18));
       { field: "department", headerName: "Department", ...columnOptions },
       { field: "position", headerName: "Position", ...columnOptions },
       { field: "email", headerName: "Email", ...columnOptions },
-      { field: "Action", renderCell: (cellValues) => {
-        return /* @__PURE__ */ import_react24.default.createElement(import_react24.default.Fragment, null, /* @__PURE__ */ import_react24.default.createElement("center", null, /* @__PURE__ */ import_react24.default.createElement(Button_default, { variant: "outlined", size: "sm", color: "primary", onClick: () => {
-          setModalUpdateOpen(!modalRegisterOpen);
-        } }, " update  "), " \u2003", /* @__PURE__ */ import_react24.default.createElement(Button_default, { variant: "outlined", size: "sm", color: "error", onClick: () => setModalDeleteOpen(!modalDeleteOpen) }, " delete  ")));
-      }, ...columnOptions }
+      {
+        field: "Action",
+        renderCell: (cellValues) => {
+          return /* @__PURE__ */ import_react24.default.createElement(import_react24.default.Fragment, null, /* @__PURE__ */ import_react24.default.createElement("center", null, /* @__PURE__ */ import_react24.default.createElement(
+            Button_default,
+            {
+              variant: "outlined",
+              size: "sm",
+              color: "primary",
+              onClick: () => {
+                setModalUpdateOpen(!modalRegisterOpen);
+              }
+            },
+            " ",
+            "update",
+            " "
+          ), " ", "\u2003", /* @__PURE__ */ import_react24.default.createElement(
+            Button_default,
+            {
+              variant: "outlined",
+              size: "sm",
+              color: "error",
+              onClick: () => setModalDeleteOpen(!modalDeleteOpen)
+            },
+            " ",
+            "delete",
+            " "
+          )));
+        },
+        ...columnOptions
+      }
     ];
     import_react24.useCallback;
     const apiRef = useGridApiRef();
-    return /* @__PURE__ */ import_react24.default.createElement(import_react24.default.Fragment, null, /* @__PURE__ */ import_react24.default.createElement(Card_default, { sx: { maxWidth: "85%", marginLeft: "15vh" } }, /* @__PURE__ */ import_react24.default.createElement(CardContent_default, null, /* @__PURE__ */ import_react24.default.createElement(Typography_default, { variant: "h3", gutterBottom: true }, " Employee "), " ", /* @__PURE__ */ import_react24.default.createElement("hr", null), " ", /* @__PURE__ */ import_react24.default.createElement("br", null), /* @__PURE__ */ import_react24.default.createElement(Container_default, { sx: { display: "flex", flexDirection: "row", alignItems: "flex-end", justifyContent: "flex-end", gap: "1rem", padding: "10px" } }, /* @__PURE__ */ import_react24.default.createElement(Button_default, { variant: "outlined", color: "success", onClick: () => {
-      setModalRegisterOpen(!modalRegisterOpen);
-    } }, " ", /* @__PURE__ */ import_react24.default.createElement(PersonAddAlt1_default, null), " \xA0 Register  "), /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, null, /* @__PURE__ */ import_react24.default.createElement(Input_default2, { startDecorator: /* @__PURE__ */ import_react24.default.createElement(PersonSearch_default, null), placeholder: "Search", sx: { float: "right", width: "40vh" } })))), /* @__PURE__ */ import_react24.default.createElement(Modal_default2, { open: modalRegisterOpen }, /* @__PURE__ */ import_react24.default.createElement(
+    return /* @__PURE__ */ import_react24.default.createElement(import_react24.default.Fragment, null, /* @__PURE__ */ import_react24.default.createElement(Card_default, { sx: { maxWidth: "85%", marginLeft: "15vh" } }, /* @__PURE__ */ import_react24.default.createElement(CardContent_default, null, /* @__PURE__ */ import_react24.default.createElement(Typography_default, { variant: "h3", gutterBottom: true }, " ", "Employee", " "), " ", /* @__PURE__ */ import_react24.default.createElement("hr", null), " ", /* @__PURE__ */ import_react24.default.createElement("br", null), /* @__PURE__ */ import_react24.default.createElement(
+      Container_default,
+      {
+        sx: {
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "flex-end",
+          justifyContent: "flex-end",
+          gap: "1rem",
+          padding: "10px"
+        }
+      },
+      /* @__PURE__ */ import_react24.default.createElement(
+        Button_default,
+        {
+          variant: "outlined",
+          color: "success",
+          onClick: () => {
+            setModalRegisterOpen(!modalRegisterOpen);
+          }
+        },
+        " ",
+        /* @__PURE__ */ import_react24.default.createElement(PersonAddAlt1_default, null),
+        " \xA0 Register",
+        " "
+      ),
+      /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, null, /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(PersonSearch_default, null),
+          placeholder: "Search",
+          sx: { float: "right", width: "40vh" }
+        }
+      )))
+    ), /* @__PURE__ */ import_react24.default.createElement(Modal_default2, { open: modalRegisterOpen }, /* @__PURE__ */ import_react24.default.createElement(
       ModalDialog_default,
       {
         "aria-labelledby": "basic-modal-dialog-title",
         "aria-describedby": "basic-modal-dialog-description",
-        sx: { minWidth: "40vh:", width: "80vh", maxWidth: "150vh", fontSize: "12px" }
+        sx: {
+          minWidth: "40vh:",
+          width: "80vh",
+          maxWidth: "150vh",
+          fontSize: "12px"
+        }
       },
       /* @__PURE__ */ import_react24.default.createElement(ModalClose_default, { onClick: () => setModalRegisterOpen(false) }),
-      /* @__PURE__ */ import_react24.default.createElement(Typography_default, { id: "basic-modal-dialog-title", component: "h1", sx: { padding: "10px" } }, " ", /* @__PURE__ */ import_react24.default.createElement(PersonAddAlt1_default, null), " Register an Employee "),
-      /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null), placeholder: "Input first Name" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Middle Name "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null), placeholder: "Input Middle Name" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Birthday "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", type: "date", placeholder: "Birthday" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Gender "), /* @__PURE__ */ import_react24.default.createElement(RadioGroup_default, { size: "sm" }, /* @__PURE__ */ import_react24.default.createElement(
+      /* @__PURE__ */ import_react24.default.createElement(
+        Typography_default,
+        {
+          id: "basic-modal-dialog-title",
+          component: "h1",
+          sx: { padding: "10px" }
+        },
+        " ",
+        /* @__PURE__ */ import_react24.default.createElement(PersonAddAlt1_default, null),
+        " Register an Employee",
+        " "
+      ),
+      /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
+          placeholder: "Input first Name"
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Middle Name "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
+          placeholder: "Input Middle Name"
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Birthday "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", type: "date", placeholder: "Birthday" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Gender "), /* @__PURE__ */ import_react24.default.createElement(RadioGroup_default, { size: "sm" }, /* @__PURE__ */ import_react24.default.createElement(
         Radio_default,
         {
           value: "male",
@@ -81388,29 +81476,105 @@ Please use another name.` : formatMuiErrorMessage(18));
           size: "md",
           slotProps: { input: { "aria-label": "Female" } }
         }
-      )))), /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null), placeholder: "Input Last Name" })))), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(AlternateEmail_default, null), type: "email", placeholder: "Input Email" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(ContactPage_default, null), type: "number", placeholder: "Input Mobile Number" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", placeholder: "Input Department" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", placeholder: "Input Position" })), /* @__PURE__ */ import_react24.default.createElement(Button_default, { variant: "soft", sx: { float: "right", backgroundColor: "#C5D8A4", color: "#534340" } }, " Register "))
+      )))), /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
+          placeholder: "Input Last Name"
+        }
+      )))), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(AlternateEmail_default, null),
+          type: "email",
+          placeholder: "Input Email"
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(ContactPage_default, null),
+          type: "number",
+          placeholder: "Input Mobile Number"
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", placeholder: "Input Department" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", placeholder: "Input Position" })), /* @__PURE__ */ import_react24.default.createElement(
+        Button_default,
+        {
+          variant: "soft",
+          sx: {
+            float: "right",
+            backgroundColor: "#C5D8A4",
+            color: "#534340"
+          }
+        },
+        " ",
+        "Register",
+        " "
+      ))
     )), /* @__PURE__ */ import_react24.default.createElement(Modal_default2, { open: modalUpdateOpen }, /* @__PURE__ */ import_react24.default.createElement(
       ModalDialog_default,
       {
         "aria-labelledby": "basic-modal-dialog-title",
         "aria-describedby": "basic-modal-dialog-description",
-        sx: { minWidth: "40vh:", width: "80vh", maxWidth: "150vh", fontSize: "12px" }
+        sx: {
+          minWidth: "40vh:",
+          width: "80vh",
+          maxWidth: "150vh",
+          fontSize: "12px"
+        }
       },
       /* @__PURE__ */ import_react24.default.createElement(ModalClose_default, { onClick: () => setModalUpdateOpen(false) }),
-      /* @__PURE__ */ import_react24.default.createElement(Typography_default, { id: "basic-modal-dialog-title", component: "h1", sx: { padding: "10px" } }, " ", /* @__PURE__ */ import_react24.default.createElement(ManageAccounts_default, null), " Update Employee Information "),
-      /* @__PURE__ */ import_react24.default.createElement("form", null, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null), value: currentUserUpdate.firstName, onChange: (event) => {
-        let currentUser = { ...currentUserUpdate };
-        currentUser.firstName = event.target.value;
-        setCurrentUserUpdate(currentUser);
-      } })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Middle Name "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null), onChange: (event) => {
-        let currentUser = { ...currentUserUpdate };
-        currentUser.middleName = event.target.value;
-        setCurrentUserUpdate(currentUser);
-      }, value: currentUserUpdate.middleName })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Birthday "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", type: "date", onChange: (event) => {
-        let currentUser = { ...currentUserUpdate };
-        currentUser.birthDate = event.target.value;
-        setCurrentUserUpdate(currentUser);
-      }, value: currentUserUpdate.birthDate })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Gender "), /* @__PURE__ */ import_react24.default.createElement(RadioGroup_default, { size: "sm", value: currentUserUpdate.gender }, /* @__PURE__ */ import_react24.default.createElement(
+      /* @__PURE__ */ import_react24.default.createElement(
+        Typography_default,
+        {
+          id: "basic-modal-dialog-title",
+          component: "h1",
+          sx: { padding: "10px" }
+        },
+        " ",
+        /* @__PURE__ */ import_react24.default.createElement(ManageAccounts_default, null),
+        " Update Employee Information",
+        " "
+      ),
+      /* @__PURE__ */ import_react24.default.createElement("form", null, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
+          value: currentUserUpdate.firstName,
+          onChange: (event) => {
+            let currentUser = { ...currentUserUpdate };
+            currentUser.firstName = event.target.value;
+            setCurrentUserUpdate(currentUser);
+          }
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Middle Name "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
+          onChange: (event) => {
+            let currentUser = { ...currentUserUpdate };
+            currentUser.middleName = event.target.value;
+            setCurrentUserUpdate(currentUser);
+          },
+          value: currentUserUpdate.middleName
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Birthday "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          type: "date",
+          onChange: (event) => {
+            let currentUser = { ...currentUserUpdate };
+            currentUser.birthDate = event.target.value;
+            setCurrentUserUpdate(currentUser);
+          },
+          value: currentUserUpdate.birthDate
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Gender "), /* @__PURE__ */ import_react24.default.createElement(RadioGroup_default, { size: "sm", value: currentUserUpdate.gender }, /* @__PURE__ */ import_react24.default.createElement(
         Radio_default,
         {
           value: "male",
@@ -81438,40 +81602,124 @@ Please use another name.` : formatMuiErrorMessage(18));
           size: "md",
           slotProps: { input: { "aria-label": "Female" } }
         }
-      )))), /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null), onChange: (event) => {
-        let currentUser = { ...currentUserUpdate };
-        currentUser.lastName = event.target.value;
-        setCurrentUserUpdate(currentUser);
-      }, value: currentUserUpdate.lastName })))), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(AlternateEmail_default, null), type: "email", onChange: (event) => {
-        let currentUser = { ...currentUserUpdate };
-        currentUser.email = event.target.value;
-        setCurrentUserUpdate(currentUser);
-      }, value: currentUserUpdate.email })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", startDecorator: /* @__PURE__ */ import_react24.default.createElement(ContactPage_default, null), type: "text", onChange: (event) => {
-        let currentUser = { ...currentUserUpdate };
-        currentUser.mobileNumber = event.target.value;
-        setCurrentUserUpdate(currentUser);
-      }, value: currentUserUpdate.mobileNumber })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", onChange: (event) => {
-        let currentUser = { ...currentUserUpdate };
-        currentUser.department = event.target.value;
-        setCurrentUserUpdate(currentUser);
-      }, value: currentUserUpdate.department })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", onChange: (event) => {
-        let currentUser = { ...currentUserUpdate };
-        currentUser.position = event.target.value;
-        setCurrentUserUpdate(currentUser);
-      }, value: currentUserUpdate.position })), /* @__PURE__ */ import_react24.default.createElement(Button_default, { variant: "soft", sx: { float: "right", backgroundColor: "#C5D8A4", color: "#534340" }, onClick: () => {
-        updateUser(currentUserUpdate);
-        setModalUpdateOpen(!modalUpdateOpen);
-      } }, " Update "))
+      )))), /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
+          onChange: (event) => {
+            let currentUser = { ...currentUserUpdate };
+            currentUser.lastName = event.target.value;
+            setCurrentUserUpdate(currentUser);
+          },
+          value: currentUserUpdate.lastName
+        }
+      )))), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(AlternateEmail_default, null),
+          type: "email",
+          onChange: (event) => {
+            let currentUser = { ...currentUserUpdate };
+            currentUser.email = event.target.value;
+            setCurrentUserUpdate(currentUser);
+          },
+          value: currentUserUpdate.email
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          startDecorator: /* @__PURE__ */ import_react24.default.createElement(ContactPage_default, null),
+          type: "text",
+          onChange: (event) => {
+            let currentUser = { ...currentUserUpdate };
+            currentUser.mobileNumber = event.target.value;
+            setCurrentUserUpdate(currentUser);
+          },
+          value: currentUserUpdate.mobileNumber
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          onChange: (event) => {
+            let currentUser = { ...currentUserUpdate };
+            currentUser.department = event.target.value;
+            setCurrentUserUpdate(currentUser);
+          },
+          value: currentUserUpdate.department
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react24.default.createElement(
+        Input_default2,
+        {
+          size: "sm",
+          onChange: (event) => {
+            let currentUser = { ...currentUserUpdate };
+            currentUser.position = event.target.value;
+            setCurrentUserUpdate(currentUser);
+          },
+          value: currentUserUpdate.position
+        }
+      )), /* @__PURE__ */ import_react24.default.createElement(
+        Button_default,
+        {
+          variant: "soft",
+          sx: {
+            float: "right",
+            backgroundColor: "#C5D8A4",
+            color: "#534340"
+          },
+          onClick: () => {
+            updateUser(currentUserUpdate);
+            setModalUpdateOpen(!modalUpdateOpen);
+          }
+        },
+        " ",
+        "Update",
+        " "
+      ))
     )), /* @__PURE__ */ import_react24.default.createElement(Modal_default2, { open: modalDeleteOpen }, /* @__PURE__ */ import_react24.default.createElement(
       ModalDialog_default,
       {
         "aria-labelledby": "basic-modal-dialog-title",
         "aria-describedby": "basic-modal-dialog-description",
-        sx: { minWidth: "40vh:", width: "80vh", maxWidth: "150vh", fontSize: "12px" }
+        sx: {
+          minWidth: "40vh:",
+          width: "80vh",
+          maxWidth: "150vh",
+          fontSize: "12px"
+        }
       },
       /* @__PURE__ */ import_react24.default.createElement(ModalClose_default, { onClick: () => setModalDeleteOpen(false) }),
-      /* @__PURE__ */ import_react24.default.createElement(Typography_default, { id: "basic-modal-dialog-title", component: "h1", sx: { padding: "10px" } }, " ", /* @__PURE__ */ import_react24.default.createElement(PersonRemove_default, null), "  Delete Employee Information "),
-      /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement("p", null, " Do you really want to delete ID? "), /* @__PURE__ */ import_react24.default.createElement(Button_default, { variant: "soft", sx: { float: "right", backgroundColor: "#C5D8A4", color: "#534340" }, onClick: () => deleteUser(getCurrentId) }, " Delete "))
+      /* @__PURE__ */ import_react24.default.createElement(
+        Typography_default,
+        {
+          id: "basic-modal-dialog-title",
+          component: "h1",
+          sx: { padding: "10px" }
+        },
+        " ",
+        /* @__PURE__ */ import_react24.default.createElement(PersonRemove_default, null),
+        " Delete Employee Information",
+        " "
+      ),
+      /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement("p", null, " Do you really want to delete ID? "), /* @__PURE__ */ import_react24.default.createElement(
+        Button_default,
+        {
+          variant: "soft",
+          sx: {
+            float: "right",
+            backgroundColor: "#C5D8A4",
+            color: "#534340"
+          },
+          onClick: () => deleteUser(getCurrentId)
+        },
+        " ",
+        "Delete",
+        " "
+      ))
     )), /* @__PURE__ */ import_react24.default.createElement(
       DataGrid2,
       {

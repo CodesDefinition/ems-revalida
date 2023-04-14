@@ -27,6 +27,7 @@
     "esbuild": "^0.17.16",
     "esbuild-envfile-plugin": "^1.0.5",
     "esbuild-sass-plugin": "^2.8.0",
+    "formik": "^2.2.9",
     "mui-datatables": "^4.3.0",
     "postcss": "^8.4.21",
     "react": "^18.2.0",
@@ -34,6 +35,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
     "sass": "^1.61.0",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "yup": "^1.1.0"
   }
 }
