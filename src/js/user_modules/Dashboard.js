@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  FormControl,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Typography,
   Paper,
+  Container,
   Grid,
   useMediaQuery,
 } from "@mui/material";
+
+import { ID, updateUser } from "../services/UsersService";
+import { getUserById } from "../services/UsersService";
 function Dashboard() {
+  // variables for styles
   const matches = useMediaQuery("(max-width:1202px)");
   const paperStyle = {
     backgroundColor: "#FFF8EA",
@@ -42,6 +54,57 @@ function Dashboard() {
     width: "50%",
     fontWeight: "bold",
   };
+  const inputLblStyles = {
+    backgroundColor: "#FFF8EA",
+    color: "#594545",
+    fontFamily: "Montserrat, sans-serif",
+    fontWeight: "bold",
+    fontSize: "18px",
+  };
+  //  states for user info
+  const [currentUser, setCurrentUser] = useState({
+    employeeId: "",
+    email: "",
+    mobileNumber: "",
+    password: "",
+    userType: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    department: "",
+    birthDate: "",
+    gender: "",
+    position: "",
+  });
+  //updatable fields
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  // functions
+  const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
+
+  useEffect(() => {
+    getUserById(localStorage.getItem(ID)).then((response) => {
+      setCurrentUser(response.data);
+      setFirstName(response.data.firstName);
+      setMiddleName(response.data.middleName);
+      setLastName(response.data.lastName);
+      setEmail(response.data.email);
+      setMobileNumber(response.data.mobileNumber);
+    });
+  }, []);
+
+  const handleSubmit = () => {
+    currentUser.firstName = firstName;
+    (currentUser.middleName = middleName), (currentUser.lastName = lastName);
+    currentUser.email = email;
+    currentUser.mobileNumber = mobileNumber;
+    updateUser(currentUser);
+    setModalUpdateOpen(!modalUpdateOpen);
+  };
+
   return (
     <Box
       sx={{
@@ -55,6 +118,215 @@ function Dashboard() {
         ml: "auto",
       }}
     >
+      <Dialog
+        open={modalUpdateOpen}
+        onClose={() => setModalUpdateOpen(!modalUpdateOpen)}
+        PaperProps={{
+          style: {
+            backgroundColor: "#FFF8EA",
+            color: "#594545",
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            fontFamily: "Montserrat, sans-serif",
+            fontWeight: "bold",
+          }}
+        >
+          Update Employee Information
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            fontFamily: "Montserrat, sans-serif",
+          }}
+        >
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="fname"
+            label="First Name"
+            value={firstName}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+          />
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="mname"
+            label="Middle Name"
+            value={middleName}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setMiddleName(e.target.value);
+            }}
+          />
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="lname"
+            label="Last Name"
+            value={lastName}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+          />
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="email"
+            label="Email Address"
+            value={email}
+            type="email"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <TextField
+            InputLabelProps={{
+              style: {
+                backgroundColor: "#FFF8EA",
+                color: "#594545",
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                fontSize: "18px",
+              },
+            }}
+            sx={{
+              backgroundColor: "#FFF8EA",
+              "& .MuiInputBase-root": {
+                fontFamily: "Montserrat, sans-serif",
+                fontWeight: "bold",
+                color: "#594545",
+                fontSize: "24px",
+              },
+            }}
+            indicatorColor="#FFF8EA"
+            autoFocus
+            margin="dense"
+            id="mobNum"
+            label="Mobile Number"
+            value={mobileNumber}
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={(e) => {
+              setMobileNumber(e.target.value);
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
+            sx={{
+              color: "#594545",
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => handleSubmit()}
+            sx={{
+              backgroundColor: "#594545",
+              color: "#FFF8EA",
+              "&:hover": {
+                color: "#594545",
+                backgroundColor: "#FFF8EA",
+                border: "1px solid #594545 ",
+              },
+            }}
+          >
+            Update
+          </Button>
+        </DialogActions>
+      </Dialog>
       {matches ? (
         <Box sx={boxStyle}>
           <Typography
@@ -66,7 +338,7 @@ function Dashboard() {
               mb: "1rem",
             }}
           >
-            Bartolome Tolome
+            {`${currentUser.lastName}, ${currentUser.firstName}`}
           </Typography>
           <Paper style={paperStyle}>
             <Grid container>
@@ -74,7 +346,7 @@ function Dashboard() {
                 Employee ID:
               </Grid>
               <Grid item sx={titleStyle}>
-                2320-87881
+                {currentUser.employeeId}
               </Grid>
             </Grid>
           </Paper>
@@ -84,7 +356,7 @@ function Dashboard() {
                 Employee Name:
               </Grid>
               <Grid item sx={titleStyle}>
-                Bartolome Tolome
+                {`${currentUser.lastName}, ${currentUser.firstName} ${currentUser.middleName}`}
               </Grid>
             </Grid>
           </Paper>
@@ -94,7 +366,7 @@ function Dashboard() {
                 Employee Email:
               </Grid>
               <Grid item sx={titleStyle}>
-                barto@email.com
+                {currentUser.email}
               </Grid>
             </Grid>
           </Paper>
@@ -104,7 +376,7 @@ function Dashboard() {
                 Department:
               </Grid>
               <Grid item sx={titleStyle}>
-                IT
+                {currentUser.department}
               </Grid>
             </Grid>
           </Paper>
@@ -114,7 +386,7 @@ function Dashboard() {
                 Position:
               </Grid>
               <Grid item sx={titleStyle}>
-                Assistant
+                {currentUser.position}
               </Grid>
             </Grid>
           </Paper>
@@ -124,7 +396,7 @@ function Dashboard() {
                 Mobile Number:
               </Grid>
               <Grid item sx={titleStyle}>
-                0985545485
+                {currentUser.mobileNumber}
               </Grid>
             </Grid>
           </Paper>
@@ -134,7 +406,10 @@ function Dashboard() {
                 Birthday:
               </Grid>
               <Grid item sx={titleStyle}>
-                Apr-20-2000
+                {new Date(currentUser.birthDate).toDateString() !=
+                "Invalid Date"
+                  ? new Date(currentUser.birthDate).toDateString()
+                  : ""}
               </Grid>
             </Grid>
           </Paper>
@@ -144,7 +419,7 @@ function Dashboard() {
                 Gender:
               </Grid>
               <Grid item sx={titleStyle}>
-                Male
+                {currentUser.gender}
               </Grid>
             </Grid>
           </Paper>
@@ -179,7 +454,12 @@ function Dashboard() {
                 justifyContent: "center",
               }}
             >
-              <Button sx={buttonStyle}>Update Information</Button>
+              <Button
+                sx={buttonStyle}
+                onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
+              >
+                Update Information
+              </Button>
             </Grid>
           </Grid>
         </Box>
@@ -321,7 +601,12 @@ function Dashboard() {
                 justifyContent: "center",
               }}
             >
-              <Button sx={buttonStyle}>Update Information</Button>
+              <Button
+                sx={buttonStyle}
+                onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
+              >
+                Update Information
+              </Button>
             </Grid>
           </Grid>
         </Box>

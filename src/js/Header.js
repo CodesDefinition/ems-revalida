@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DrawerComp from "./DrawerComp";
+import { destroySession } from "./services/UsersService";
 const PAGES = ["Home", "About", "Logout"];
 
 function Appbar() {
@@ -21,13 +22,14 @@ function Appbar() {
     setTab(value);
     if (value == 0) {
       console.log("Going home");
-      navigate("/userhome");
+      navigate("/user/homepage");
     } else if (value == 1) {
       console.log("Going about");
       navigate("/about");
     } else if (value == 2) {
-      console.log("/login");
-      navigate("/login");
+      console.log(`logging out ${localStorage.getItem("USER")}`);
+      destroySession();
+      window.location.reload();
     }
   };
   return (
