@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Card, CardContent, Container, Button, Typography} from '@mui/material';
 import {Modal, ModalDialog, ModalClose, 
         FormControl, FormLabel, Input, 
@@ -7,11 +7,14 @@ import {DataGrid, GridToolbarContainer,
                     GridToolbarColumnsButton,
                     GridToolbarFilterButton,
                     GridToolbarExport,
-                    GridToolbarDensitySelector} from '@mui/x-data-grid';
+                    GridToolbarDensitySelector,
+                    useGridApiRef} from '@mui/x-data-grid';
 import {PersonAddAlt1, AccountCircle, AlternateEmail, 
                         ContactPage, ManageAccounts, 
                         PersonRemove, PersonSearch} from '@mui/icons-material';
-import {getUserById, getUsers} from '../services/UsersService';
+import {deleteUser, getUserById, getUsers} from '../services/UsersService';
+import { updateUser } from '../services/UsersService';
+import { useNavigate } from 'react-router-dom';
 
 function CustomToolbar() {
     return (
@@ -26,8 +29,11 @@ function CustomToolbar() {
 
 const Employee = () => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [userDetails, setUserDetails] = useState([]);
+    const [modalRegisterOpen, setModalRegisterOpen] = useState(false);
+    const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
 
+    const [userDetails, setUserDetails] = useState([]);
     const [createNewUser, setCreateNewUser] = useState({
         employeeId: "",
         email: "",
@@ -63,7 +69,6 @@ const Employee = () => {
     const refresh = () => {
         getUsers().then((response) => {
             setIsLoaded(true);
-            console.log(response.data);
             setUserDetails(response.data);
         })
     }
@@ -96,20 +101,16 @@ const Employee = () => {
             return (
                 <>
                     <center>
-                        <Button variant = "outlined" size = "sm" color = "primary" onClick = {() => {setCurrentUserUpdate(userDetails); setModalUpdateOpen(!modalRegisterOpen);}}> update  </Button> &emsp;
+                        <Button variant = "outlined" size = "sm" color = "primary" onClick = {() => {setModalUpdateOpen(!modalRegisterOpen);}}> update  </Button> &emsp;
                         <Button variant = "outlined" size = "sm"  color = "error" onClick = {() => setModalDeleteOpen(!modalDeleteOpen)}> delete  </Button>
                     </center>
                 </>
             )
         }, ...columnOptions}
       ];
-
-      const [modalRegisterOpen, setModalRegisterOpen] = useState(false);
-      const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
-      const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-
-      console.log(getCurrentId, 'heyyyyyyyyyyyyyyy');
-    return (
+      useCallback
+      const apiRef = useGridApiRef();
+      return (
         <React.Fragment>
             <Card sx = {{maxWidth: "85%", marginLeft: "15vh"}}>
                 <CardContent>
@@ -207,36 +208,38 @@ const Employee = () => {
                                         sx = {{minWidth: "40vh:", width: "80vh", maxWidth: "150vh", fontSize: "12px"}}>
                             <ModalClose onClick={() => setModalUpdateOpen(false)}  />
                             <Typography id = "basic-modal-dialog-title" component = "h1" sx = {{padding: "10px"}}> <ManageAccounts /> Update Employee Information </Typography>
-                            <form method = "" action = "">
+                            <form>
                                 <Grid container spacing = {2} xs = {{flexGrow: 1}}>
                                 <Grid xs = {6}>
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> First Name </FormLabel>
-                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input First Name"/> 
+                                            <Input size = "sm" startDecorator = {<AccountCircle />} value={currentUserUpdate.firstName} onChange={(event) => {let currentUser = {...currentUserUpdate}; currentUser.firstName = event.target.value; setCurrentUserUpdate(currentUser)}}/> 
                                         </FormControl>
                                         
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> Middle Name </FormLabel>
-                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input Middle Name"/> 
+                                            <Input size = "sm" startDecorator = {<AccountCircle />} onChange={(event) => {let currentUser = {...currentUserUpdate}; currentUser.middleName = event.target.value; setCurrentUserUpdate(currentUser)}} value={currentUserUpdate.middleName}/> 
                                         </FormControl>
                                         
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> Birthday </FormLabel>
-                                            <Input size = "sm" type = "date" placeholder = "Birthday" />    
+                                            <Input size = "sm" type = "date"onChange={(event) => {let currentUser = {...currentUserUpdate}; currentUser.birthDate = event.target.value; setCurrentUserUpdate(currentUser)}} value={currentUserUpdate.birthDate} />    
                                         </FormControl>
                                         
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> Gender </FormLabel>
-                                            <RadioGroup size = "sm">
+                                            <RadioGroup size = "sm" value={currentUserUpdate.gender}>
                                                 <Radio
-                                                    value="Male"
+                                                    value="male"
+                                                    onClick={(event) => {let currentUser = {...currentUserUpdate}; currentUser.gender = event.target.value; setCurrentUserUpdate(currentUser)}}
                                                     name="radio-buttons"
                                                     label = "Male"
                                                     size = "md"
                                                     slotProps={{ input: { 'aria-label': 'Male' } }}
                                                 /> <br />
                                                 <Radio
-                                                    value="Female"
+                                                    value="female"
+                                                    onClick={(event) => {let currentUser = {...currentUserUpdate}; currentUser.gender = event.target.value; setCurrentUserUpdate(currentUser)}}
                                                     name="radio-buttons"
                                                     label = "Female"
                                                     size = "md"
@@ -248,31 +251,31 @@ const Employee = () => {
                                     <Grid xs = {6}>
                                         <FormControl sx = {{padding: "5px"}}>
                                             <FormLabel> Last Name </FormLabel>
-                                            <Input size = "sm" startDecorator = {<AccountCircle />} placeholder = "Input Last Name"/> 
+                                            <Input size = "sm" startDecorator = {<AccountCircle />} onChange={(event) => {let currentUser = {...currentUserUpdate}; currentUser.lastName = event.target.value; setCurrentUserUpdate(currentUser)}} value={currentUserUpdate.lastName}/> 
                                         </FormControl>
                                     </Grid>
                                 </Grid>
                                         
                                 <FormControl sx = {{padding: "5px"}}>
                                     <FormLabel> Email </FormLabel>
-                                    <Input size = "sm" startDecorator = {<AlternateEmail/>}  type = "email" placeholder = "Input Email" />    
+                                    <Input size = "sm" startDecorator = {<AlternateEmail/>}  type = "email" onChange={(event) => {let currentUser = {...currentUserUpdate}; currentUser.email = event.target.value; setCurrentUserUpdate(currentUser)}}  value={currentUserUpdate.email} />    
                                 </FormControl>
                                 
                                 <FormControl sx = {{padding: "5px"}}>
                                     <FormLabel> Mobile Number </FormLabel>
-                                    <Input size = "sm" startDecorator = {<ContactPage/>} type = "number" placeholder = "Input Mobile Number" />    
+                                    <Input size = "sm" startDecorator = {<ContactPage/>} type = "text" onChange={(event) => {let currentUser = {...currentUserUpdate}; currentUser.mobileNumber = event.target.value; setCurrentUserUpdate(currentUser)}} value={currentUserUpdate.mobileNumber} />    
                                 </FormControl>
                                 
                                 <FormControl sx = {{padding: "5px"}}>
                                     <FormLabel> Department </FormLabel>
-                                    <Input size = "sm" placeholder = "Input Department" />    
+                                    <Input size = "sm" onChange={(event) => {let currentUser = {...currentUserUpdate}; currentUser.department = event.target.value; setCurrentUserUpdate(currentUser)}} value={currentUserUpdate.department} />    
                                 </FormControl>
                                 
                                 <FormControl sx = {{padding: "5px"}}>
                                     <FormLabel> Position </FormLabel>
-                                    <Input size = "sm" placeholder = "Input Position" />    
+                                    <Input size = "sm" onChange={(event) => {let currentUser = {...currentUserUpdate}; currentUser.position = event.target.value; setCurrentUserUpdate(currentUser)}} value={currentUserUpdate.position} />    
                                 </FormControl>
-                                <Button onClick={() => {getUserById()}} variant = "soft" sx = {{float: "right", backgroundColor: "#C5D8A4", color: "#534340"}}> Update </Button>
+                                <Button variant = "soft" sx = {{float: "right", backgroundColor: "#C5D8A4", color: "#534340"}} onClick={() => {updateUser(currentUserUpdate); setModalUpdateOpen(!modalUpdateOpen); }}> Update </Button>
                             </form>
                         </ModalDialog>
                     </Modal>
@@ -284,15 +287,18 @@ const Employee = () => {
                             <Typography  id = "basic-modal-dialog-title" component = "h1" sx = {{padding: "10px"}}> <PersonRemove />  Delete Employee Information </Typography>
                             <form method = "" action = "">
                                <p> Do you really want to delete ID? </p>
-                                <Button variant = "soft" sx = {{float: "right", backgroundColor: "#C5D8A4", color: "#534340"}}> Delete </Button>
+                                <Button variant = "soft" sx = {{float: "right", backgroundColor: "#C5D8A4", color: "#534340"}} onClick={() => deleteUser(getCurrentId)}> Delete </Button>
                             </form>
                         </ModalDialog>
                     </Modal>
                     <DataGrid
                         getRowId = {userDetails => userDetails.employeeId}
-                        onRowClick={(userDetails)=>{setGetCurrentId(userDetails.employeeId)}}
                         rows = {userDetails}
                         columns = {columns}
+                        onRowClick={(params) => {
+                            setGetCurrentId(params.row.employeeId);
+                            getUserById(params.row.employeeId).then(response => {setCurrentUserUpdate(response.data)});
+                          }}
                         editMode = "cell"
                         autoHeight = "true"
                         density = "comfortable"
