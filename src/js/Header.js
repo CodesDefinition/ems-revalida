@@ -21,7 +21,7 @@ function Appbar() {
     setTab(value);
     if (value == 0) {
       console.log("Going home");
-      navigate("/userhome");
+      navigate("/user/homepage");
     } else if (value == 1) {
       console.log("Going about");
       navigate("/about");

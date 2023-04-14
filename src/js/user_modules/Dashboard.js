@@ -24,6 +24,8 @@ import {
   ManageAccounts,
   PersonRemove,
 } from "@mui/icons-material";
+import { useFormik, Form, Field, Formik, ErrorMessage } from "formik";
+import * as yup from "yup";
 function Dashboard() {
   // variables for styles
   const matches = useMediaQuery("(max-width:1202px)");
@@ -67,23 +69,60 @@ function Dashboard() {
     fontWeight: "bold",
     fontSize: "18px",
   };
+  const outlineStyles = {
+    backgroundColor: "#FFF8EA",
+    "& .MuiInputBase-root": {
+      fontFamily: "Montserrat, sans-serif",
+      fontWeight: "bold",
+      color: "#594545",
+      fontSize: "24px",
+    },
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": {
+        borderColor: "#594545",
+      },
+    },
+  };
   //  states for user info
   const [firstName, setFirstName] = useState("Mark");
   const [middleName, setMiddleName] = useState("Cariño");
   const [lastName, setLastName] = useState("Perez");
   const [email, setEmail] = useState("mark@email.com");
   const [number, setNumber] = useState("6665585288");
+  // for Formik
+  const initialVal = {
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    mobNum: "",
+  };
+  const schema = yup.object().shape({
+    firstName: yup
+      .string()
+      .min(2, "Must have atleast 2 characters")
+      .max(15, "Cannot exceed 15 characters")
+      .required("First name is required!"),
+    middleName: yup.string().max(15, "Cannot exceed 15 characters"),
+    lastName: yup
+      .string()
+      .min(2, "Must have atleast 2 characters")
+      .max(15, "Cannot exceed 15 characters")
+      .required("Last name is required!"),
+    email: yup.string().email().required("Email is required!"),
+    mobNum: yup
+      .number()
+      .positive()
+      .integer()
+      .min(0)
+      .max(1000000000)
+      .required("Mobile number is required!"),
+  });
   // functions
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
-  const handleSubmit = () => {
-    const payload = {
-      fname: firstName,
-      mname: middleName,
-      lname: lastName,
-      email: email,
-      number: number,
-    };
-    console.log(payload);
+  const onSubmit = (values, props) => {
+    alert(JSON.stringify(values, null, 2));
+    console.log(values);
     setModalUpdateOpen(!modalUpdateOpen);
   };
 
@@ -100,6 +139,7 @@ function Dashboard() {
         ml: "auto",
       }}
     >
+      {/* Form Dialog */}
       <Dialog
         open={modalUpdateOpen}
         onClose={() => setModalUpdateOpen(!modalUpdateOpen)}
@@ -114,6 +154,7 @@ function Dashboard() {
           sx={{
             fontFamily: "Montserrat, sans-serif",
             fontWeight: "bold",
+            variant: "h4",
           }}
         >
           Update Employee Information
@@ -123,191 +164,114 @@ function Dashboard() {
             fontFamily: "Montserrat, sans-serif",
           }}
         >
-          <TextField
-            InputLabelProps={{
-              style: {
-                backgroundColor: "#FFF8EA",
-                color: "#594545",
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                fontSize: "18px",
-              },
-            }}
-            sx={{
-              backgroundColor: "#FFF8EA",
-              "& .MuiInputBase-root": {
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                color: "#594545",
-                fontSize: "24px",
-              },
-            }}
-            indicatorColor="#FFF8EA"
-            autoFocus
-            margin="dense"
-            id="fname"
-            label="First Name"
-            value={firstName}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-          />
-          <TextField
-            InputLabelProps={{
-              style: {
-                backgroundColor: "#FFF8EA",
-                color: "#594545",
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                fontSize: "18px",
-              },
-            }}
-            sx={{
-              backgroundColor: "#FFF8EA",
-              "& .MuiInputBase-root": {
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                color: "#594545",
-                fontSize: "24px",
-              },
-            }}
-            indicatorColor="#FFF8EA"
-            autoFocus
-            margin="dense"
-            id="mname"
-            label="Middle Name"
-            value={middleName}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => {
-              setMiddleName(e.target.value);
-            }}
-          />
-          <TextField
-            InputLabelProps={{
-              style: {
-                backgroundColor: "#FFF8EA",
-                color: "#594545",
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                fontSize: "18px",
-              },
-            }}
-            sx={{
-              backgroundColor: "#FFF8EA",
-              "& .MuiInputBase-root": {
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                color: "#594545",
-                fontSize: "24px",
-              },
-            }}
-            indicatorColor="#FFF8EA"
-            autoFocus
-            margin="dense"
-            id="lname"
-            label="Last Name"
-            value={lastName}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-          />
-          <TextField
-            InputLabelProps={{
-              style: {
-                backgroundColor: "#FFF8EA",
-                color: "#594545",
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                fontSize: "18px",
-              },
-            }}
-            sx={{
-              backgroundColor: "#FFF8EA",
-              "& .MuiInputBase-root": {
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                color: "#594545",
-                fontSize: "24px",
-              },
-            }}
-            indicatorColor="#FFF8EA"
-            autoFocus
-            margin="dense"
-            id="email"
-            label="Email Address"
-            value={email}
-            type="email"
-            fullWidth
-            variant="standard"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <TextField
-            InputLabelProps={{
-              style: {
-                backgroundColor: "#FFF8EA",
-                color: "#594545",
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                fontSize: "18px",
-              },
-            }}
-            sx={{
-              backgroundColor: "#FFF8EA",
-              "& .MuiInputBase-root": {
-                fontFamily: "Montserrat, sans-serif",
-                fontWeight: "bold",
-                color: "#594545",
-                fontSize: "24px",
-              },
-            }}
-            indicatorColor="#FFF8EA"
-            autoFocus
-            margin="dense"
-            id="mobNum"
-            label="Mobile Number"
-            value={number}
-            type="number"
-            fullWidth
-            variant="standard"
-            onChange={(e) => {
-              setNumber(e.target.value);
-            }}
-          />
+          <Formik
+            initialValues={initialVal}
+            validationSchema={schema}
+            onSubmit={onSubmit}
+          >
+            {(props) => (
+              <Form>
+                <Field
+                  as={TextField}
+                  InputLabelProps={{
+                    style: inputLblStyles,
+                  }}
+                  sx={outlineStyles}
+                  autoFocus
+                  margin="dense"
+                  name="firstName"
+                  label="First Name"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  helperText={<ErrorMessage name="firstName" />}
+                />
+                <Field
+                  as={TextField}
+                  InputLabelProps={{
+                    style: inputLblStyles,
+                  }}
+                  sx={outlineStyles}
+                  autoFocus
+                  margin="dense"
+                  name="middleName"
+                  label="Middle Name"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  helperText={<ErrorMessage name="middleName" />}
+                />
+                <Field
+                  as={TextField}
+                  InputLabelProps={{
+                    style: inputLblStyles,
+                  }}
+                  sx={outlineStyles}
+                  autoFocus
+                  margin="dense"
+                  name="lastName"
+                  label="Last Name"
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  helperText={<ErrorMessage name="lastName" />}
+                />
+                <Field
+                  as={TextField}
+                  InputLabelProps={{
+                    style: inputLblStyles,
+                  }}
+                  sx={outlineStyles}
+                  autoFocus
+                  margin="dense"
+                  name="email"
+                  label="Email Address"
+                  type="email"
+                  fullWidth
+                  variant="outlined"
+                  helperText={<ErrorMessage name="email" />}
+                />
+                <Field
+                  as={TextField}
+                  InputLabelProps={{
+                    style: inputLblStyles,
+                  }}
+                  sx={outlineStyles}
+                  autoFocus
+                  margin="dense"
+                  name="mobNum"
+                  label="Mobile Number"
+                  type="number"
+                  fullWidth
+                  variant="outlined"
+                  helperText={<ErrorMessage name="mobNum" />}
+                />
+                <Button
+                  onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
+                  sx={{
+                    color: "#594545",
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  sx={{
+                    backgroundColor: "#594545",
+                    color: "#FFF8EA",
+                    "&:hover": {
+                      color: "#594545",
+                      backgroundColor: "#FFF8EA",
+                      border: "1px solid #594545 ",
+                    },
+                  }}
+                >
+                  Update
+                </Button>
+              </Form>
+            )}
+          </Formik>
         </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
-            sx={{
-              color: "#594545",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => handleSubmit()}
-            sx={{
-              backgroundColor: "#594545",
-              color: "#FFF8EA",
-              "&:hover": {
-                color: "#594545",
-                backgroundColor: "#FFF8EA",
-                border: "1px solid #594545 ",
-              },
-            }}
-          >
-            Update
-          </Button>
-        </DialogActions>
       </Dialog>
       {matches ? (
         <Box sx={boxStyle}>
@@ -338,7 +302,7 @@ function Dashboard() {
                 Employee Name:
               </Grid>
               <Grid item sx={titleStyle}>
-                Bartolome Tolome
+                {firstName + " " + middleName + " " + lastName}
               </Grid>
             </Grid>
           </Paper>
@@ -348,7 +312,7 @@ function Dashboard() {
                 Employee Email:
               </Grid>
               <Grid item sx={titleStyle}>
-                barto@email.com
+                {email}
               </Grid>
             </Grid>
           </Paper>
@@ -378,7 +342,7 @@ function Dashboard() {
                 Mobile Number:
               </Grid>
               <Grid item sx={titleStyle}>
-                0985545485
+                {number}
               </Grid>
             </Grid>
           </Paper>
@@ -475,7 +439,7 @@ function Dashboard() {
                     Employee Name:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    Bartolome Tolome
+                    {firstName + " " + middleName + " " + lastName}
                   </Grid>
                 </Grid>
               </Paper>
@@ -489,7 +453,7 @@ function Dashboard() {
                     Employee Email:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    barto@email.com
+                    {email}
                   </Grid>
                 </Grid>
               </Paper>
@@ -515,7 +479,7 @@ function Dashboard() {
                     Mobile Number:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    0985545485
+                    {number}
                   </Grid>
                 </Grid>
               </Paper>
