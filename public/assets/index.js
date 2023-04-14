@@ -1112,7 +1112,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
-          function useMemo41(create, deps) {
+          function useMemo42(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useMemo(create, deps);
           }
@@ -1883,7 +1883,7 @@
           exports.useImperativeHandle = useImperativeHandle12;
           exports.useInsertionEffect = useInsertionEffect3;
           exports.useLayoutEffect = useLayoutEffect14;
-          exports.useMemo = useMemo41;
+          exports.useMemo = useMemo42;
           exports.useReducer = useReducer;
           exports.useRef = useRef92;
           exports.useState = useState62;
@@ -81289,28 +81289,24 @@ Please use another name.` : formatMuiErrorMessage(18));
     return /* @__PURE__ */ import_react24.default.createElement(GridToolbarContainer, null, /* @__PURE__ */ import_react24.default.createElement(GridToolbarColumnsButton, { sx: { color: "#4b6043" } }), /* @__PURE__ */ import_react24.default.createElement(GridToolbarFilterButton, { sx: { color: "#4b6043" } }), /* @__PURE__ */ import_react24.default.createElement(GridToolbarDensitySelector, { sx: { color: "#4b6043" } }), /* @__PURE__ */ import_react24.default.createElement(GridToolbarExport, { sx: { color: "#4b6043" } }));
   }
   var Employee = () => {
+    const [isLoaded, setIsLoaded] = (0, import_react24.useState)(false);
     const [modalRegisterOpen, setModalRegisterOpen] = (0, import_react24.useState)(false);
     const [modalUpdateOpen, setModalUpdateOpen] = (0, import_react24.useState)(false);
     const [modalDeleteOpen, setModalDeleteOpen] = (0, import_react24.useState)(false);
-    const register = (args) => {
-      insertData(user).then((response) => {
-        window.location.reload();
-      }).catch((response) => {
-        alert("Error: not able to register employee");
-        console.log(response);
-      });
-    };
     const [userDetails, setUserDetails] = (0, import_react24.useState)([]);
-    const [user, setUser] = (0, import_react24.useState)({
-      firstName: "",
-      middleName: "",
-      birthDate: "",
-      gender: "",
+    const [createNewUser, setCreateNewUser] = (0, import_react24.useState)({
+      employeeId: "",
       email: "",
       mobileNumber: "",
+      password: "",
+      userType: "",
+      firstName: "",
+      middleName: "",
+      lastName: "",
       department: "",
-      position: "",
-      password: ""
+      birthDate: "",
+      gender: "",
+      position: ""
     });
     const [getCurrentId, setGetCurrentId] = (0, import_react24.useState)(-1);
     const [currentUserUpdate, setCurrentUserUpdate] = (0, import_react24.useState)({
@@ -81329,6 +81325,7 @@ Please use another name.` : formatMuiErrorMessage(18));
     });
     const refresh = () => {
       getUsers().then((response) => {
+        setIsLoaded(true);
         setUserDetails(response.data);
       });
     };
@@ -81364,11 +81361,13 @@ Please use another name.` : formatMuiErrorMessage(18));
               size: "sm",
               color: "primary",
               onClick: () => {
-                setModalUpdateOpen(!modalUpdateOpen);
+                setModalUpdateOpen(!modalRegisterOpen);
               }
             },
-            "update"
-          ), "\u2003", /* @__PURE__ */ import_react24.default.createElement(
+            " ",
+            "update",
+            " "
+          ), " ", "\u2003", /* @__PURE__ */ import_react24.default.createElement(
             Button_default,
             {
               variant: "outlined",
@@ -81376,7 +81375,9 @@ Please use another name.` : formatMuiErrorMessage(18));
               color: "error",
               onClick: () => setModalDeleteOpen(!modalDeleteOpen)
             },
-            "delete"
+            " ",
+            "delete",
+            " "
           )));
         },
         ...columnOptions
@@ -81384,7 +81385,7 @@ Please use another name.` : formatMuiErrorMessage(18));
     ];
     import_react24.useCallback;
     const apiRef = useGridApiRef();
-    return /* @__PURE__ */ import_react24.default.createElement(import_react24.default.Fragment, null, /* @__PURE__ */ import_react24.default.createElement(Card_default, { sx: { maxWidth: "85%", marginLeft: "15vh" } }, /* @__PURE__ */ import_react24.default.createElement(CardContent_default, null, /* @__PURE__ */ import_react24.default.createElement(Typography_default, { variant: "h3", gutterBottom: true }, "Employee"), /* @__PURE__ */ import_react24.default.createElement("hr", null), " ", /* @__PURE__ */ import_react24.default.createElement("br", null), /* @__PURE__ */ import_react24.default.createElement(
+    return /* @__PURE__ */ import_react24.default.createElement(import_react24.default.Fragment, null, /* @__PURE__ */ import_react24.default.createElement(Card_default, { sx: { maxWidth: "85%", marginLeft: "15vh" } }, /* @__PURE__ */ import_react24.default.createElement(CardContent_default, null, /* @__PURE__ */ import_react24.default.createElement(Typography_default, { variant: "h3", gutterBottom: true }, " ", "Employee", " "), " ", /* @__PURE__ */ import_react24.default.createElement("hr", null), " ", /* @__PURE__ */ import_react24.default.createElement("br", null), /* @__PURE__ */ import_react24.default.createElement(
       Container_default,
       {
         sx: {
@@ -81405,8 +81406,10 @@ Please use another name.` : formatMuiErrorMessage(18));
             setModalRegisterOpen(!modalRegisterOpen);
           }
         },
+        " ",
         /* @__PURE__ */ import_react24.default.createElement(PersonAddAlt1_default, null),
-        " \xA0 Register"
+        " \xA0 Register",
+        " "
       ),
       /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, null, /* @__PURE__ */ import_react24.default.createElement(
         Input_default2,
@@ -81421,62 +81424,48 @@ Please use another name.` : formatMuiErrorMessage(18));
       {
         "aria-labelledby": "basic-modal-dialog-title",
         "aria-describedby": "basic-modal-dialog-description",
-        sx: { minWidth: "40vh:", width: "80vh", maxWidth: "150vh", fontSize: "12px" }
+        sx: {
+          minWidth: "40vh:",
+          width: "80vh",
+          maxWidth: "150vh",
+          fontSize: "12px"
+        }
       },
       /* @__PURE__ */ import_react24.default.createElement(ModalClose_default, { onClick: () => setModalRegisterOpen(false) }),
-      /* @__PURE__ */ import_react24.default.createElement(Typography_default, { id: "basic-modal-dialog-title", component: "h1", sx: { padding: "10px" } }, " ", /* @__PURE__ */ import_react24.default.createElement(PersonAddAlt1_default, null), " Register an Employee "),
-      /* @__PURE__ */ import_react24.default.createElement("form", null, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react24.default.createElement(
+      /* @__PURE__ */ import_react24.default.createElement(
+        Typography_default,
+        {
+          id: "basic-modal-dialog-title",
+          component: "h1",
+          sx: { padding: "10px" }
+        },
+        " ",
+        /* @__PURE__ */ import_react24.default.createElement(PersonAddAlt1_default, null),
+        " Register an Employee",
+        " "
+      ),
+      /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react24.default.createElement(
         Input_default2,
         {
-          value: user.firstName,
           size: "sm",
           startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
-          placeholder: "Input First Name",
-          onChange: (event) => {
-            let obj = { ...user };
-            obj.firstName = event.target.value;
-            setUser(obj);
-          }
+          placeholder: "Input first Name"
         }
-      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react24.default.createElement(
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Middle Name "), /* @__PURE__ */ import_react24.default.createElement(
         Input_default2,
         {
-          value: user.lastName,
           size: "sm",
           startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
-          placeholder: "Input Middle Name",
-          onChange: (event) => {
-            let obj = { ...user };
-            obj.lastName = event.target.value;
-            obj;
-          }
+          placeholder: "Input Middle Name"
         }
-      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Birthday "), /* @__PURE__ */ import_react24.default.createElement(
-        Input_default2,
-        {
-          value: user.birthday,
-          size: "sm",
-          type: "date",
-          placeholder: "Birthday",
-          onChange: (event) => {
-            let obj = { ...user };
-            obj.birthDate = event.target.value;
-            setUser(obj);
-          }
-        }
-      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Gender "), /* @__PURE__ */ import_react24.default.createElement(RadioGroup_default, { size: "sm", name: "gender" }, /* @__PURE__ */ import_react24.default.createElement(
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Birthday "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", type: "date", placeholder: "Birthday" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Gender "), /* @__PURE__ */ import_react24.default.createElement(RadioGroup_default, { size: "sm" }, /* @__PURE__ */ import_react24.default.createElement(
         Radio_default,
         {
-          value: "Male",
+          value: "male",
           name: "radio-buttons",
           label: "Male",
           size: "md",
-          slotProps: { input: { "aria-label": "Male" } },
-          onClick: (event) => {
-            let obj = { ...user };
-            obj.gender = event.target.value;
-            setUser(obj);
-          }
+          slotProps: { input: { "aria-label": "Male" } }
         }
       ), " ", /* @__PURE__ */ import_react24.default.createElement("br", null), /* @__PURE__ */ import_react24.default.createElement(
         Radio_default,
@@ -81485,79 +81474,32 @@ Please use another name.` : formatMuiErrorMessage(18));
           name: "radio-buttons",
           label: "Female",
           size: "md",
-          slotProps: { input: { "aria-label": "Female" } },
-          onClick: (event) => {
-            let obj = { ...user };
-            obj.gender = event.target.value;
-            setUser(obj);
-          }
+          slotProps: { input: { "aria-label": "Female" } }
         }
-      )))), /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Middle Name "), /* @__PURE__ */ import_react24.default.createElement(
+      )))), /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Last Name "), /* @__PURE__ */ import_react24.default.createElement(
         Input_default2,
         {
-          value: user.middleNames,
           size: "sm",
           startDecorator: /* @__PURE__ */ import_react24.default.createElement(AccountCircle_default, null),
-          placeholder: "Input Last Name",
-          onChange: (event) => {
-            let obj = { ...user };
-            obj.middleName = event.target.value;
-            setUser(obj);
-          }
+          placeholder: "Input Last Name"
         }
       )))), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Email "), /* @__PURE__ */ import_react24.default.createElement(
         Input_default2,
         {
-          value: user.email,
           size: "sm",
           startDecorator: /* @__PURE__ */ import_react24.default.createElement(AlternateEmail_default, null),
           type: "email",
-          placeholder: "Input Email",
-          onChange: (event) => {
-            let obj = { ...user };
-            obj.email = event.target.value;
-            setUser(obj);
-          }
+          placeholder: "Input Email"
         }
       )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Mobile Number "), /* @__PURE__ */ import_react24.default.createElement(
         Input_default2,
         {
-          value: user.mobileNumber,
           size: "sm",
           startDecorator: /* @__PURE__ */ import_react24.default.createElement(ContactPage_default, null),
           type: "number",
-          placeholder: "Input Mobile Number",
-          onChange: (event) => {
-            let obj = { ...user };
-            obj.mobileNumber = event.target.value;
-            setUser(obj);
-          }
+          placeholder: "Input Mobile Number"
         }
-      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react24.default.createElement(
-        Input_default2,
-        {
-          value: user.department,
-          size: "sm",
-          placeholder: "Input Department",
-          onChange: (event) => {
-            let obj = { ...user };
-            obj.department = event.target.value;
-            setUser(obj);
-          }
-        }
-      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react24.default.createElement(
-        Input_default2,
-        {
-          value: user.position,
-          size: "sm",
-          placeholder: "Input Position",
-          onChange: (event) => {
-            let obj = { ...user };
-            obj.position = event.target.value;
-            setUser(obj);
-          }
-        }
-      )), /* @__PURE__ */ import_react24.default.createElement(
+      )), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Department "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", placeholder: "Input Department" })), /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " Position "), /* @__PURE__ */ import_react24.default.createElement(Input_default2, { size: "sm", placeholder: "Input Position" })), /* @__PURE__ */ import_react24.default.createElement(
         Button_default,
         {
           variant: "soft",
@@ -81565,12 +81507,11 @@ Please use another name.` : formatMuiErrorMessage(18));
             float: "right",
             backgroundColor: "#C5D8A4",
             color: "#534340"
-          },
-          onClick: () => {
-            register();
           }
         },
-        " Register "
+        " ",
+        "Register",
+        " "
       ))
     )), /* @__PURE__ */ import_react24.default.createElement(Modal_default2, { open: modalUpdateOpen }, /* @__PURE__ */ import_react24.default.createElement(
       ModalDialog_default,
@@ -81592,8 +81533,10 @@ Please use another name.` : formatMuiErrorMessage(18));
           component: "h1",
           sx: { padding: "10px" }
         },
+        " ",
         /* @__PURE__ */ import_react24.default.createElement(ManageAccounts_default, null),
-        " Update Employee Information"
+        " Update Employee Information",
+        " "
       ),
       /* @__PURE__ */ import_react24.default.createElement("form", null, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { container: true, spacing: 2, xs: { flexGrow: 1 } }, /* @__PURE__ */ import_react24.default.createElement(Grid_default2, { xs: 6 }, /* @__PURE__ */ import_react24.default.createElement(FormControl_default2, { sx: { padding: "5px" } }, /* @__PURE__ */ import_react24.default.createElement(FormLabel_default2, null, " First Name "), /* @__PURE__ */ import_react24.default.createElement(
         Input_default2,
@@ -81645,7 +81588,7 @@ Please use another name.` : formatMuiErrorMessage(18));
           size: "md",
           slotProps: { input: { "aria-label": "Male" } }
         }
-      ), /* @__PURE__ */ import_react24.default.createElement("br", null), /* @__PURE__ */ import_react24.default.createElement(
+      ), " ", /* @__PURE__ */ import_react24.default.createElement("br", null), /* @__PURE__ */ import_react24.default.createElement(
         Radio_default,
         {
           value: "female",
@@ -81733,7 +81676,9 @@ Please use another name.` : formatMuiErrorMessage(18));
             setModalUpdateOpen(!modalUpdateOpen);
           }
         },
-        "Update"
+        " ",
+        "Update",
+        " "
       ))
     )), /* @__PURE__ */ import_react24.default.createElement(Modal_default2, { open: modalDeleteOpen }, /* @__PURE__ */ import_react24.default.createElement(
       ModalDialog_default,
@@ -81755,8 +81700,10 @@ Please use another name.` : formatMuiErrorMessage(18));
           component: "h1",
           sx: { padding: "10px" }
         },
+        " ",
         /* @__PURE__ */ import_react24.default.createElement(PersonRemove_default, null),
-        " Delete Employee Information"
+        " Delete Employee Information",
+        " "
       ),
       /* @__PURE__ */ import_react24.default.createElement("form", { method: "", action: "" }, /* @__PURE__ */ import_react24.default.createElement("p", null, " Do you really want to delete ID? "), /* @__PURE__ */ import_react24.default.createElement(
         Button_default,
@@ -81769,7 +81716,9 @@ Please use another name.` : formatMuiErrorMessage(18));
           },
           onClick: () => deleteUser(getCurrentId)
         },
-        "Delete"
+        " ",
+        "Delete",
+        " "
       ))
     )), /* @__PURE__ */ import_react24.default.createElement(
       DataGrid2,

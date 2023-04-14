@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -51,31 +51,26 @@ function CustomToolbar() {
 }
 
 const Employee = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [modalRegisterOpen, setModalRegisterOpen] = useState(false);
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
 
-  const register = (args) => {
-        insertData(user).then((response) => {
-            window.location.reload();
-        }).catch((response) => {
-            alert("Error: not able to register employee");
-            console.log(response);
-        })
-    }
-
   const [userDetails, setUserDetails] = useState([]);
-  const [user, setUser] = useState({
-    firstName: "",
-    middleName: "",
-    birthDate: "",
-    gender: "",
+  const [createNewUser, setCreateNewUser] = useState({
+    employeeId: "",
     email: "",
     mobileNumber: "",
+    password: "",
+    userType: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
     department: "",
+    birthDate: "",
+    gender: "",
     position: "",
-    password: ""
-});
+  });
 
   //for updating individual users
   const [getCurrentId, setGetCurrentId] = useState(-1);
@@ -96,6 +91,7 @@ const Employee = () => {
 
   const refresh = () => {
     getUsers().then((response) => {
+      setIsLoaded(true);
       setUserDetails(response.data);
     });
   };
@@ -135,12 +131,12 @@ const Employee = () => {
                 size="sm"
                 color="primary"
                 onClick={() => {
-                  setModalUpdateOpen(!modalUpdateOpen);
+                  setModalUpdateOpen(!modalRegisterOpen);
                 }}
               >
-                
-                update
-              </Button>
+                {" "}
+                update{" "}
+              </Button>{" "}
               &emsp;
               <Button
                 variant="outlined"
@@ -148,8 +144,8 @@ const Employee = () => {
                 color="error"
                 onClick={() => setModalDeleteOpen(!modalDeleteOpen)}
               >
-                
-                delete
+                {" "}
+                delete{" "}
               </Button>
             </center>
           </>
@@ -165,9 +161,9 @@ const Employee = () => {
       <Card sx={{ maxWidth: "85%", marginLeft: "15vh" }}>
         <CardContent>
           <Typography variant="h3" gutterBottom>
-            
-            Employee
-          </Typography>
+            {" "}
+            Employee{" "}
+          </Typography>{" "}
           <hr /> <br />
           <Container
             sx={{
@@ -186,8 +182,8 @@ const Employee = () => {
                 setModalRegisterOpen(!modalRegisterOpen);
               }}
             >
-              
-              <PersonAddAlt1 /> &nbsp; Register
+              {" "}
+              <PersonAddAlt1 /> &nbsp; Register{" "}
             </Button>
             <form method="" action="">
               <FormControl>
@@ -200,159 +196,128 @@ const Employee = () => {
             </form>
           </Container>
           {/* Register Modal */}
-          <Modal open = {modalRegisterOpen}>
-                <ModalDialog aria-labelledby = "basic-modal-dialog-title"
-                            aria-describedby = "basic-modal-dialog-description" 
-                            sx = {{minWidth: "40vh:", width: "80vh", maxWidth: "150vh", fontSize: "12px"}}>
-                    <ModalClose onClick={() => setModalRegisterOpen(false)}  />
-                    <Typography id = "basic-modal-dialog-title" component = "h1" sx = {{padding: "10px"}}> <PersonAddAlt1 /> Register an Employee </Typography>
-                    <form>
-                        <Grid container spacing = {2} xs = {{flexGrow: 1}}>
-                        <Grid xs = {6}>
-                            <FormControl sx = {{padding: "5px"}}>
-                                <FormLabel> First Name </FormLabel>
-                                <Input value = {user.firstName} 
-                                        size = "sm" 
-                                        startDecorator = {<AccountCircle />} 
-                                                    placeholder = "Input First Name"
-                                                    onChange = {(event) => {
-                                                    let obj = {...user}
-                                                    obj.firstName = event.target.value;
-                                                    setUser(obj);
-                                }} /> 
-                            </FormControl>
-                                        
-                            <FormControl sx = {{padding: "5px"}}>
-                                <FormLabel> Last Name </FormLabel>
-                                <Input value = {user.lastName}  
-                                            size = "sm" 
-                                            startDecorator = {<AccountCircle />} 
-                                            placeholder = "Input Middle Name"
-                                            onChange = {(event) => {
-                                            let obj = {...user}
-                                            obj.lastName = event.target.value;
-                                            (obj);
-                                }} />
-                            </FormControl>
-                                        
-                            <FormControl sx = {{padding: "5px"}}>
-                                <FormLabel> Birthday </FormLabel>
-                                <Input value = {user.birthday} 
-                                        size = "sm" 
-                                        type = "date" 
-                                        placeholder = "Birthday" 
-                                        onChange = {(event) => {
-                                            let obj = {...user}
-                                            obj.birthDate = event.target.value;
-                                            setUser(obj);
-                                }} />    
-                            </FormControl>
-                                        
-                            <FormControl sx = {{padding: "5px"}}>
-                                <FormLabel> Gender </FormLabel>
-                                <RadioGroup size = "sm" name = "gender">
-                                    <Radio
-                                        value="Male"
-                                        name="radio-buttons"
-                                        label = "Male"
-                                        size = "md"
-                                        slotProps={{ input: { 'aria-label': 'Male' } }}
-                                        onClick = {(event) => {
-                                            let obj = {...user};
-                                            obj.gender = event.target.value;
-                                            setUser(obj);
-                                    }} /> <br />
-                                    <Radio
-                                        value="Female"
-                                        name="radio-buttons"
-                                        label = "Female"
-                                        size = "md"
-                                        slotProps={{ input: { 'aria-label': 'Female' } }}
-                                        onClick = {(event) => {
-                                        let obj = {...user};
-                                        obj.gender = event.target.value;
-                                        setUser(obj);
-                                    }} />
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
-                        <Grid xs = {6}>
-                            <FormControl sx = {{padding: "5px"}}>
-                                <FormLabel> Middle Name </FormLabel>
-                                <Input value = {user.middleNames} 
-                                        size = "sm" startDecorator = {<AccountCircle />} 
-                                        placeholder = "Input Last Name"
-                                        onChange = {(event) => {
-                                        let obj = {...user};
-                                        obj.middleName = event.target.value;
-                                        setUser(obj);
-                                }} /> 
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                                        
-                    <FormControl sx = {{padding: "5px"}}>
-                        <FormLabel> Email </FormLabel>
-                        <Input value = {user.email} 
-                                size = "sm" 
-                                startDecorator = {<AlternateEmail/>}  
-                                type = "email" 
-                                placeholder = "Input Email"
-                                onChange = {(event) => {
-                                let obj = {...user};
-                                obj.email = event.target.value;
-                                setUser(obj);
-                        }} />    
+          <Modal open={modalRegisterOpen}>
+            <ModalDialog
+              aria-labelledby="basic-modal-dialog-title"
+              aria-describedby="basic-modal-dialog-description"
+              sx={{
+                minWidth: "40vh:",
+                width: "80vh",
+                maxWidth: "150vh",
+                fontSize: "12px",
+              }}
+            >
+              <ModalClose onClick={() => setModalRegisterOpen(false)} />
+              <Typography
+                id="basic-modal-dialog-title"
+                component="h1"
+                sx={{ padding: "10px" }}
+              >
+                {" "}
+                <PersonAddAlt1 /> Register an Employee{" "}
+              </Typography>
+              <form method="" action="">
+                <Grid container spacing={2} xs={{ flexGrow: 1 }}>
+                  <Grid xs={6}>
+                    <FormControl sx={{ padding: "5px" }}>
+                      <FormLabel> First Name </FormLabel>
+                      <Input
+                        size="sm"
+                        startDecorator={<AccountCircle />}
+                        placeholder="Input first Name"
+                      />
                     </FormControl>
-                                
-                    <FormControl sx = {{padding: "5px"}}>
-                        <FormLabel> Mobile Number </FormLabel>
-                        <Input value = {user.mobileNumber} 
-                                size = "sm" 
-                                startDecorator = {<ContactPage/>} 
-                                type = "number" 
-                                placeholder = "Input Mobile Number"
-                                onChange = {(event) => {
-                                let obj = {...user};
-                                obj.mobileNumber = event.target.value;
-                                setUser(obj);
-                                }} />    
+
+                    <FormControl sx={{ padding: "5px" }}>
+                      <FormLabel> Middle Name </FormLabel>
+                      <Input
+                        size="sm"
+                        startDecorator={<AccountCircle />}
+                        placeholder="Input Middle Name"
+                      />
                     </FormControl>
-                                
-                    <FormControl sx = {{padding: "5px"}}>
-                        <FormLabel> Department </FormLabel>
-                        <Input value = {user.department} 
-                                size = "sm" 
-                                placeholder = "Input Department"
-                                onChange = {(event) => {
-                                    let obj = {...user};
-                                    obj.department = event.target.value;
-                                    setUser(obj);
-                        }} />    
+
+                    <FormControl sx={{ padding: "5px" }}>
+                      <FormLabel> Birthday </FormLabel>
+                      <Input size="sm" type="date" placeholder="Birthday" />
                     </FormControl>
-                                
-                    <FormControl sx = {{padding: "5px"}}>
-                        <FormLabel> Position </FormLabel>
-                        <Input value = {user.position} 
-                                size = "sm" 
-                                placeholder = "Input Position"
-                                onChange = {(event) => {
-                                    let obj = {...user};
-                                    obj.position = event.target.value;
-                                    setUser(obj);
-                        }} />    
+
+                    <FormControl sx={{ padding: "5px" }}>
+                      <FormLabel> Gender </FormLabel>
+                      <RadioGroup size="sm">
+                        <Radio
+                          value="male"
+                          name="radio-buttons"
+                          label="Male"
+                          size="md"
+                          slotProps={{ input: { "aria-label": "Male" } }}
+                        />{" "}
+                        <br />
+                        <Radio
+                          value="Female"
+                          name="radio-buttons"
+                          label="Female"
+                          size="md"
+                          slotProps={{ input: { "aria-label": "Female" } }}
+                        />
+                      </RadioGroup>
                     </FormControl>
-                    <Button variant = "soft"
-                            sx = {{float: "right", 
-                                    backgroundColor: "#C5D8A4", 
-                                    color: "#534340"}}
-                                    onClick = {() => {
-                                        register();
-                                    }}> Register </Button>
-                            </form>
-                </ModalDialog>
+                  </Grid>
+                  <Grid xs={6}>
+                    <FormControl sx={{ padding: "5px" }}>
+                      <FormLabel> Last Name </FormLabel>
+                      <Input
+                        size="sm"
+                        startDecorator={<AccountCircle />}
+                        placeholder="Input Last Name"
+                      />
+                    </FormControl>
+                  </Grid>
+                </Grid>
+
+                <FormControl sx={{ padding: "5px" }}>
+                  <FormLabel> Email </FormLabel>
+                  <Input
+                    size="sm"
+                    startDecorator={<AlternateEmail />}
+                    type="email"
+                    placeholder="Input Email"
+                  />
+                </FormControl>
+
+                <FormControl sx={{ padding: "5px" }}>
+                  <FormLabel> Mobile Number </FormLabel>
+                  <Input
+                    size="sm"
+                    startDecorator={<ContactPage />}
+                    type="number"
+                    placeholder="Input Mobile Number"
+                  />
+                </FormControl>
+
+                <FormControl sx={{ padding: "5px" }}>
+                  <FormLabel> Department </FormLabel>
+                  <Input size="sm" placeholder="Input Department" />
+                </FormControl>
+
+                <FormControl sx={{ padding: "5px" }}>
+                  <FormLabel> Position </FormLabel>
+                  <Input size="sm" placeholder="Input Position" />
+                </FormControl>
+                <Button
+                  variant="soft"
+                  sx={{
+                    float: "right",
+                    backgroundColor: "#C5D8A4",
+                    color: "#534340",
+                  }}
+                >
+                  {" "}
+                  Register{" "}
+                </Button>
+              </form>
+            </ModalDialog>
           </Modal>
-          
           <Modal open={modalUpdateOpen}>
             <ModalDialog
               aria-labelledby="basic-modal-dialog-title"
@@ -370,8 +335,8 @@ const Employee = () => {
                 component="h1"
                 sx={{ padding: "10px" }}
               >
-                
-                <ManageAccounts /> Update Employee Information
+                {" "}
+                <ManageAccounts /> Update Employee Information{" "}
               </Typography>
               <form>
                 <Grid container spacing={2} xs={{ flexGrow: 1 }}>
@@ -432,7 +397,7 @@ const Employee = () => {
                           label="Male"
                           size="md"
                           slotProps={{ input: { "aria-label": "Male" } }}
-                        />
+                        />{" "}
                         <br />
                         <Radio
                           value="female"
@@ -533,8 +498,8 @@ const Employee = () => {
                     setModalUpdateOpen(!modalUpdateOpen);
                   }}
                 >
-                  
-                  Update
+                  {" "}
+                  Update{" "}
                 </Button>
               </form>
             </ModalDialog>
@@ -556,8 +521,8 @@ const Employee = () => {
                 component="h1"
                 sx={{ padding: "10px" }}
               >
-                
-                <PersonRemove /> Delete Employee Information
+                {" "}
+                <PersonRemove /> Delete Employee Information{" "}
               </Typography>
               <form method="" action="">
                 <p> Do you really want to delete ID? </p>
@@ -570,8 +535,8 @@ const Employee = () => {
                   }}
                   onClick={() => deleteUser(getCurrentId)}
                 >
-                  
-                  Delete
+                  {" "}
+                  Delete{" "}
                 </Button>
               </form>
             </ModalDialog>
