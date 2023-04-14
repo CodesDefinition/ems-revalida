@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -284,7 +284,7 @@ function Dashboard() {
               mb: "1rem",
             }}
           >
-            Bartolome Tolome
+            {`${currentUser.lastName}, ${currentUser.firstName}`}
           </Typography>
           <Paper style={paperStyle}>
             <Grid container>
@@ -292,7 +292,7 @@ function Dashboard() {
                 Employee ID:
               </Grid>
               <Grid item sx={titleStyle}>
-                2320-87881
+                {currentUser.employeeId}
               </Grid>
             </Grid>
           </Paper>
@@ -302,7 +302,7 @@ function Dashboard() {
                 Employee Name:
               </Grid>
               <Grid item sx={titleStyle}>
-                {firstName + " " + middleName + " " + lastName}
+                {`${currentUser.lastName}, ${currentUser.firstName} ${currentUser.middleName}`}
               </Grid>
             </Grid>
           </Paper>
@@ -312,7 +312,7 @@ function Dashboard() {
                 Employee Email:
               </Grid>
               <Grid item sx={titleStyle}>
-                {email}
+                {currentUser.email}
               </Grid>
             </Grid>
           </Paper>
@@ -322,7 +322,7 @@ function Dashboard() {
                 Department:
               </Grid>
               <Grid item sx={titleStyle}>
-                IT
+                {currentUser.department}
               </Grid>
             </Grid>
           </Paper>
@@ -332,7 +332,7 @@ function Dashboard() {
                 Position:
               </Grid>
               <Grid item sx={titleStyle}>
-                Assistant
+                {currentUser.position}
               </Grid>
             </Grid>
           </Paper>
@@ -342,7 +342,7 @@ function Dashboard() {
                 Mobile Number:
               </Grid>
               <Grid item sx={titleStyle}>
-                {number}
+                {currentUser.mobileNumber}
               </Grid>
             </Grid>
           </Paper>
@@ -352,7 +352,10 @@ function Dashboard() {
                 Birthday:
               </Grid>
               <Grid item sx={titleStyle}>
-                Apr-20-2000
+                {new Date(currentUser.birthDate).toDateString() !=
+                "Invalid Date"
+                  ? new Date(currentUser.birthDate).toDateString()
+                  : ""}
               </Grid>
             </Grid>
           </Paper>
@@ -362,7 +365,7 @@ function Dashboard() {
                 Gender:
               </Grid>
               <Grid item sx={titleStyle}>
-                Male
+                {currentUser.gender}
               </Grid>
             </Grid>
           </Paper>

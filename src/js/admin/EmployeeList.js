@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -150,6 +150,7 @@ const Employee = () => {
       ...columnOptions,
     },
   ];
+  useCallback;
 
   const [modalRegisterOpen, setModalRegisterOpen] = useState(false);
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
@@ -486,6 +487,7 @@ const Employee = () => {
             }}
             rows={userDetails}
             columns={columns}
+            onCellSele
             editMode="cell"
             autoHeight="true"
             density="comfortable"

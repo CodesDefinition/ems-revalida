@@ -1,35 +1,37 @@
 import React, { useState } from "react";
 import bgimg from "../img/background.png";
-import { createSession, getUser, getUsers } from "./services/UsersService";
+import { createSession, authenticate } from "./services/UsersService";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const formSubmitHandler = () => {
-    getUser(username, password)
-      .then((response) => {
-        if (response.data == "") {
-          console.log(response.data, "if");
-          return;
-        }
-        createSession(response.data);
-        window.location.reload();
-        console.log("outside if");
-      })
-      .catch((response) => {
-        console.log(response);
-      });
+    authenticate(username, password).then((response) => {
+      if (response.data == "") {
+        console.log("No user like that exists");
+        return;
+      }
+      createSession(
+        response.data[0],
+        response.data[1],
+        response.data[2],
+        response.data[3]
+      );
+      window.location.reload();
+    });
   };
 
   return (
     <React.Fragment>
       <div className="row">
         <div className="col-md-6">
+          {" "}
           <br /> <br /> <br /> <br />
           <img src={bgimg} />
         </div>
         <div className="col-md-2"></div>
         <div className="col-md-3">
+          {" "}
           <br /> <br />
           <br /> <br /> <br /> <br />
           <div
@@ -45,8 +47,9 @@ const Login = () => {
             <div className="card-body">
               <center>
                 <strong>
-                  <h1 style={{ color: "#534340" }}> Login </h1>
-                </strong>
+                  {" "}
+                  <h1 style={{ color: "#534340" }}> Login </h1>{" "}
+                </strong>{" "}
                 <br /> <br />
               </center>
               <div className="form-group">
@@ -59,7 +62,7 @@ const Login = () => {
                     }}
                     className="form-control w-80"
                     placeholder="Enter Employee ID"
-                  />
+                  />{" "}
                   <br />
                   <label> Password </label> <br />
                   <input
@@ -72,18 +75,21 @@ const Login = () => {
                     placeholder="Enter Password"
                   />
                   <a href="" style={{ color: "#BB9981", float: "right" }}>
-                    Forgot password?
-                  </a>
+                    {" "}
+                    Forgot password?{" "}
+                  </a>{" "}
                   <br /> <br />
                   <center>
+                    {" "}
                     <button
                       onClick={formSubmitHandler}
                       type="button"
                       className="btn btn-outline-success w-50"
                       style={{ float: "right" }}
                     >
-                      LOGIN
-                    </button>
+                      {" "}
+                      LOGIN{" "}
+                    </button>{" "}
                   </center>
                 </form>
               </div>
