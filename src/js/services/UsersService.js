@@ -23,8 +23,10 @@ export const createSession = (token, id, username, userType) => {
 };
 
 export const destroySession = () => {
-  localStorage.removeItem(USER);
   localStorage.removeItem(TOKEN);
+  localStorage.removeItem(ID);
+  localStorage.removeItem(USER);
+  localStorage.removeItem(USERTYPE);
 };
 
 export const getToken = () => {

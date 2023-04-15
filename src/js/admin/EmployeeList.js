@@ -37,7 +37,6 @@ import {
 } from "@mui/icons-material";
 import { deleteUser, getUserById, getUsers } from "../services/UsersService";
 import { updateUser } from "../services/UsersService";
-import { useNavigate } from "react-router-dom";
 
 function CustomToolbar() {
   return (
@@ -56,7 +55,9 @@ const Employee = () => {
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
 
+  //getting all users
   const [userDetails, setUserDetails] = useState([]);
+  //to create a users
   const [createNewUser, setCreateNewUser] = useState({
     employeeId: "",
     email: "",
@@ -71,7 +72,6 @@ const Employee = () => {
     gender: "",
     position: "",
   });
-
   //for updating individual users
   const [getCurrentId, setGetCurrentId] = useState(-1);
   const [currentUserUpdate, setCurrentUserUpdate] = useState({
@@ -89,16 +89,12 @@ const Employee = () => {
     position: "",
   });
 
-  const refresh = () => {
+  useEffect(() => {
     getUsers().then((response) => {
       setIsLoaded(true);
       setUserDetails(response.data);
     });
-  };
-
-  useEffect(() => {
-    refresh();
-  }, []);
+  }, [currentUserUpdate]);
 
   const columnOptions = {
     editable: false,
@@ -155,7 +151,6 @@ const Employee = () => {
     },
   ];
   useCallback;
-  const apiRef = useGridApiRef();
   return (
     <React.Fragment>
       <Card sx={{ maxWidth: "85%", marginLeft: "15vh" }}>
@@ -496,10 +491,10 @@ const Employee = () => {
                   onClick={() => {
                     updateUser(currentUserUpdate);
                     setModalUpdateOpen(!modalUpdateOpen);
+                    window.location.reload();
                   }}
                 >
-                  {" "}
-                  Update{" "}
+                  Update
                 </Button>
               </form>
             </ModalDialog>
