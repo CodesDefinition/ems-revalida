@@ -15,6 +15,8 @@ import {
 import { Form, Field, Formik, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { ID, updateUser, getUserById } from "../services/UsersService";
+import { Style } from "@mui/icons-material";
+import InputAdornment from "@mui/material/InputAdornment";
 function Dashboard() {
   // variables for styles
   const matches = useMediaQuery("(max-width:1202px)");
@@ -72,6 +74,12 @@ function Dashboard() {
       },
     },
   };
+  const helperStyle = {
+    color: " red",
+    "& ..MuiFormHelperText-root": {
+      color: "red",
+    },
+  };
   //  states for user info
   const [currentUser, setCurrentUser] = useState({
     employeeId: "",
@@ -82,10 +90,10 @@ function Dashboard() {
     firstName: "",
     middleName: "",
     lastName: "",
-    department: "",
+    departmentId: "",
     birthDate: "",
     gender: "",
-    position: "",
+    positionId: "",
   });
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -93,6 +101,7 @@ function Dashboard() {
   const [email, setEmail] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   // for Formik
+  const phoneRegExp = "[0-9]{10}";
   const initialVal = {
     firstName: currentUser.firstName,
     middleName: currentUser.middleName,
@@ -113,24 +122,20 @@ function Dashboard() {
       .max(15, "Cannot exceed 15 characters")
       .required("Last name is required!"),
     email: yup.string().email().required("Email is required!"),
-    mobNum: yup
-      .number()
-      .positive()
-      .integer()
-      .min(0)
-      .max(1000000000)
-      .required("Mobile number is required!"),
+    mobNum: yup.string().matches(phoneRegExp, "Ivalid phone number!"),
   });
   // functions
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
   const onSubmit = (values, props) => {
     alert(JSON.stringify(values, null, 2));
     console.log(values);
-    currentUser.firstName = firstName;
-    (currentUser.middleName = middleName), (currentUser.lastName = lastName);
-    currentUser.email = email;
-    currentUser.mobileNumber = mobileNumber;
-    updateUser(currentUser);
+    let tempUser = { ...currentUser };
+    tempUser.firstName = values.firstName;
+    tempUser.middleName = values.middleName;
+    tempUser.lastName = values.lastName;
+    tempUser.email = values.email;
+    tempUser.mobileNumber = values.mobNum;
+    updateUser(tempUser);
     setModalUpdateOpen(!modalUpdateOpen);
   };
   useEffect(() => {
@@ -210,8 +215,12 @@ function Dashboard() {
                   type="text"
                   fullWidth
                   variant="outlined"
-                  helperText={<ErrorMessage name="firstName" />}
                 />
+                <ErrorMessage name="firstName">
+                  {(msg) => (
+                    <div style={{ color: "red", textAlign: "left" }}>{msg}</div>
+                  )}
+                </ErrorMessage>
                 <Field
                   as={TextField}
                   InputLabelProps={{
@@ -225,8 +234,12 @@ function Dashboard() {
                   type="text"
                   fullWidth
                   variant="outlined"
-                  helperText={<ErrorMessage name="middleName" />}
                 />
+                <ErrorMessage name="middleName">
+                  {(msg) => (
+                    <div style={{ color: "red", textAlign: "left" }}>{msg}</div>
+                  )}
+                </ErrorMessage>
                 <Field
                   as={TextField}
                   InputLabelProps={{
@@ -240,8 +253,12 @@ function Dashboard() {
                   type="text"
                   fullWidth
                   variant="outlined"
-                  helperText={<ErrorMessage name="lastName" />}
                 />
+                <ErrorMessage name="lastName">
+                  {(msg) => (
+                    <div style={{ color: "red", textAlign: "left" }}>{msg}</div>
+                  )}
+                </ErrorMessage>
                 <Field
                   as={TextField}
                   InputLabelProps={{
@@ -255,8 +272,12 @@ function Dashboard() {
                   type="email"
                   fullWidth
                   variant="outlined"
-                  helperText={<ErrorMessage name="email" />}
                 />
+                <ErrorMessage name="email">
+                  {(msg) => (
+                    <div style={{ color: "red", textAlign: "left" }}>{msg}</div>
+                  )}
+                </ErrorMessage>
                 <Field
                   as={TextField}
                   InputLabelProps={{
@@ -270,8 +291,17 @@ function Dashboard() {
                   type="number"
                   fullWidth
                   variant="outlined"
-                  helperText={<ErrorMessage name="mobNum" />}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">+63</InputAdornment>
+                    ),
+                  }}
                 />
+                <ErrorMessage name="mobNum">
+                  {(msg) => (
+                    <div style={{ color: "red", textAlign: "left" }}>{msg}</div>
+                  )}
+                </ErrorMessage>
                 <Button
                   onClick={() => setModalUpdateOpen(!modalUpdateOpen)}
                   sx={{
@@ -348,7 +378,7 @@ function Dashboard() {
                 Department:
               </Grid>
               <Grid item sx={titleStyle}>
-                {currentUser.department}
+                {currentUser.departmentId}
               </Grid>
             </Grid>
           </Paper>
@@ -358,7 +388,7 @@ function Dashboard() {
                 Position:
               </Grid>
               <Grid item sx={titleStyle}>
-                {currentUser.position}
+                {currentUser.positionId}
               </Grid>
             </Grid>
           </Paper>
@@ -446,7 +476,7 @@ function Dashboard() {
               mb: "1rem",
             }}
           >
-            Bartolome Tolome
+            {`${currentUser.lastName}, ${currentUser.firstName}`}
           </Typography>
           <Grid container>
             <Grid item sx={{ width: "48%", mr: "2%" }}>
@@ -456,7 +486,7 @@ function Dashboard() {
                     Employee ID:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    2320-87881
+                    {currentUser.employeeId}
                   </Grid>
                 </Grid>
               </Paper>
@@ -468,7 +498,7 @@ function Dashboard() {
                     Employee Name:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    {firstName + " " + middleName + " " + lastName}
+                    {`${currentUser.lastName}, ${currentUser.firstName} ${currentUser.middleName}`}
                   </Grid>
                 </Grid>
               </Paper>
@@ -482,7 +512,7 @@ function Dashboard() {
                     Employee Email:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    {email}
+                    {currentUser.email}
                   </Grid>
                 </Grid>
               </Paper>
@@ -494,7 +524,7 @@ function Dashboard() {
                     Department:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    IT
+                    {currentUser.departmentId}
                   </Grid>
                 </Grid>
               </Paper>
@@ -508,7 +538,7 @@ function Dashboard() {
                     Mobile Number:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    {number}
+                    {currentUser.mobileNumber}
                   </Grid>
                 </Grid>
               </Paper>
@@ -520,7 +550,10 @@ function Dashboard() {
                     Birthday:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    Apr-20-2000
+                    {new Date(currentUser.birthDate).toDateString() !=
+                    "Invalid Date"
+                      ? new Date(currentUser.birthDate).toDateString()
+                      : ""}
                   </Grid>
                 </Grid>
               </Paper>
@@ -534,7 +567,7 @@ function Dashboard() {
                     Position:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    Assistant
+                    {currentUser.positionId}
                   </Grid>
                 </Grid>
               </Paper>
@@ -546,7 +579,7 @@ function Dashboard() {
                     Gender:
                   </Grid>
                   <Grid item sx={titleStyle}>
-                    Female
+                    {currentUser.gender}
                   </Grid>
                 </Grid>
               </Paper>
