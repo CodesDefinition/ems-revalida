@@ -1,31 +1,20 @@
 import React, { useEffect, useState } from "react";
+//MUI css imports
 import {
   Box,
   Button,
-  FormControl,
   TextField,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Typography,
   Paper,
-  Container,
   Grid,
   useMediaQuery,
 } from "@mui/material";
-
-import {
-  PersonAddAlt1,
-  AccountCircle,
-  AlternateEmail,
-  ContactPage,
-  ManageAccounts,
-  PersonRemove,
-} from "@mui/icons-material";
-import { useFormik, Form, Field, Formik, ErrorMessage } from "formik";
+import { Form, Field, Formik, ErrorMessage } from "formik";
 import * as yup from "yup";
+import { ID, updateUser, getUserById } from "../services/UsersService";
 function Dashboard() {
   // variables for styles
   const matches = useMediaQuery("(max-width:1202px)");
@@ -84,18 +73,32 @@ function Dashboard() {
     },
   };
   //  states for user info
-  const [firstName, setFirstName] = useState("Mark");
-  const [middleName, setMiddleName] = useState("Cariño");
-  const [lastName, setLastName] = useState("Perez");
-  const [email, setEmail] = useState("mark@email.com");
-  const [number, setNumber] = useState("6665585288");
-  // for Formik
-  const initialVal = {
+  const [currentUser, setCurrentUser] = useState({
+    employeeId: "",
+    email: "",
+    mobileNumber: "",
+    password: "",
+    userType: "",
     firstName: "",
     middleName: "",
     lastName: "",
-    email: "",
-    mobNum: "",
+    department: "",
+    birthDate: "",
+    gender: "",
+    position: "",
+  });
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  // for Formik
+  const initialVal = {
+    firstName: currentUser.firstName,
+    middleName: currentUser.middleName,
+    lastName: currentUser.lastName,
+    email: currentUser.email,
+    mobNum: currentUser.mobileNumber,
   };
   const schema = yup.object().shape({
     firstName: yup
@@ -123,9 +126,32 @@ function Dashboard() {
   const onSubmit = (values, props) => {
     alert(JSON.stringify(values, null, 2));
     console.log(values);
+    currentUser.firstName = firstName;
+    (currentUser.middleName = middleName), (currentUser.lastName = lastName);
+    currentUser.email = email;
+    currentUser.mobileNumber = mobileNumber;
+    updateUser(currentUser);
     setModalUpdateOpen(!modalUpdateOpen);
   };
+  useEffect(() => {
+    getUserById(localStorage.getItem(ID)).then((response) => {
+      setCurrentUser(response.data);
+      setFirstName(response.data.firstName);
+      setMiddleName(response.data.middleName);
+      setLastName(response.data.lastName);
+      setEmail(response.data.email);
+      setMobileNumber(response.data.mobileNumber);
+    });
+  }, []);
 
+  // const handleSubmit = () => {
+  //   currentUser.firstName = firstName;
+  //   (currentUser.middleName = middleName), (currentUser.lastName = lastName);
+  //   currentUser.email = email;
+  //   currentUser.mobileNumber = mobileNumber;
+  //   updateUser(currentUser);
+  //   setModalUpdateOpen(!modalUpdateOpen);
+  // };
   return (
     <Box
       sx={{

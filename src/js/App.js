@@ -1,22 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Appbar from "./Header";
 import Homepage from "./admin/Homepage";
 import About from "./About";
 import Employee from "./admin/EmployeeList";
-import Dashboard from "./user_modules/Dashboard";
+import Dashboard from "./employee/Dashboard";
+import { USERTYPE } from "./services/UsersService";
 const App = () => {
+  const adminHompage = "/admin/homepage";
+  const employeeHompage = "/admin/homepage";
+  let userType = localStorage.getItem(USERTYPE);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userType == "admin") {
+      navigate("/admin/homepage");
+    } else if (userType == "employee") {
+      navigate("/employee/homepage");
+    }
+  }, [userType]);
   return (
     <React.Fragment>
       <div className="App">
-        <Appbar /> <br /> <br />
+        <Appbar />
+        <br /><br />
         <Routes>
-          {/* admin routing */}
+          {/* Admin routing */}
           <Route path="/admin/homepage" element={<Homepage />} />
           <Route path="/admin/employee" element={<Employee />} />
           {/* employee routing */}
-          <Route path="/about" element={<About />} />
-          <Route path="/userhome" element={<Dashboard />} />
+          <Route path="/employee/homepage" element={<Dashboard />} />
+          <Route path="/employee/about" element={<About />} />
         </Routes>
       </div>
     </React.Fragment>

@@ -4,7 +4,7 @@ import { HashRouter as Router, useNavigate } from "react-router-dom";
 import Homepage from "./js/admin/Homepage";
 import Login from "./js/Login";
 import { USERTYPE, isLoggedIn } from "./js/services/UsersService";
-import Dashboard from "./js/user_modules/Dashboard";
+import Dashboard from "./js/employee/Dashboard";
 import App from "./js/App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

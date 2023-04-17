@@ -24,6 +24,7 @@ import {
   GridToolbarFilterButton,
   GridToolbarExport,
   GridToolbarDensitySelector,
+  useGridApiRef,
 } from "@mui/x-data-grid";
 import {
   PersonAddAlt1,
@@ -34,7 +35,8 @@ import {
   PersonRemove,
   PersonSearch,
 } from "@mui/icons-material";
-import { getUserById, getUsers } from "../services/UsersService";
+import { deleteUser, getUserById, getUsers } from "../services/UsersService";
+import { updateUser } from "../services/UsersService";
 
 function CustomToolbar() {
   return (
@@ -49,8 +51,13 @@ function CustomToolbar() {
 
 const Employee = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [userDetails, setUserDetails] = useState([]);
+  const [modalRegisterOpen, setModalRegisterOpen] = useState(false);
+  const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
 
+  //getting all users
+  const [userDetails, setUserDetails] = useState([]);
+  //to create a users
   const [createNewUser, setCreateNewUser] = useState({
     employeeId: "",
     email: "",
@@ -65,7 +72,6 @@ const Employee = () => {
     gender: "",
     position: "",
   });
-
   //for updating individual users
   const [getCurrentId, setGetCurrentId] = useState(-1);
   const [currentUserUpdate, setCurrentUserUpdate] = useState({
@@ -83,17 +89,12 @@ const Employee = () => {
     position: "",
   });
 
-  const refresh = () => {
+  useEffect(() => {
     getUsers().then((response) => {
       setIsLoaded(true);
-      console.log(response.data);
       setUserDetails(response.data);
     });
-  };
-
-  useEffect(() => {
-    refresh();
-  }, []);
+  }, [currentUserUpdate]);
 
   const columnOptions = {
     editable: false,
@@ -126,7 +127,6 @@ const Employee = () => {
                 size="sm"
                 color="primary"
                 onClick={() => {
-                  setCurrentUserUpdate(userDetails);
                   setModalUpdateOpen(!modalRegisterOpen);
                 }}
               >
@@ -151,12 +151,6 @@ const Employee = () => {
     },
   ];
   useCallback;
-
-  const [modalRegisterOpen, setModalRegisterOpen] = useState(false);
-  const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
-  const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
-
-  console.log(getCurrentId, "heyyyyyyyyyyyyyyy");
   return (
     <React.Fragment>
       <Card sx={{ maxWidth: "85%", marginLeft: "15vh" }}>
@@ -339,7 +333,7 @@ const Employee = () => {
                 {" "}
                 <ManageAccounts /> Update Employee Information{" "}
               </Typography>
-              <form method="" action="">
+              <form>
                 <Grid container spacing={2} xs={{ flexGrow: 1 }}>
                   <Grid xs={6}>
                     <FormControl sx={{ padding: "5px" }}>
@@ -347,7 +341,12 @@ const Employee = () => {
                       <Input
                         size="sm"
                         startDecorator={<AccountCircle />}
-                        placeholder="Input First Name"
+                        value={currentUserUpdate.firstName}
+                        onChange={(event) => {
+                          let currentUser = { ...currentUserUpdate };
+                          currentUser.firstName = event.target.value;
+                          setCurrentUserUpdate(currentUser);
+                        }}
                       />
                     </FormControl>
 
@@ -356,20 +355,39 @@ const Employee = () => {
                       <Input
                         size="sm"
                         startDecorator={<AccountCircle />}
-                        placeholder="Input Middle Name"
+                        onChange={(event) => {
+                          let currentUser = { ...currentUserUpdate };
+                          currentUser.middleName = event.target.value;
+                          setCurrentUserUpdate(currentUser);
+                        }}
+                        value={currentUserUpdate.middleName}
                       />
                     </FormControl>
 
                     <FormControl sx={{ padding: "5px" }}>
                       <FormLabel> Birthday </FormLabel>
-                      <Input size="sm" type="date" placeholder="Birthday" />
+                      <Input
+                        size="sm"
+                        type="date"
+                        onChange={(event) => {
+                          let currentUser = { ...currentUserUpdate };
+                          currentUser.birthDate = event.target.value;
+                          setCurrentUserUpdate(currentUser);
+                        }}
+                        value={currentUserUpdate.birthDate}
+                      />
                     </FormControl>
 
                     <FormControl sx={{ padding: "5px" }}>
                       <FormLabel> Gender </FormLabel>
-                      <RadioGroup size="sm">
+                      <RadioGroup size="sm" value={currentUserUpdate.gender}>
                         <Radio
-                          value="Male"
+                          value="male"
+                          onClick={(event) => {
+                            let currentUser = { ...currentUserUpdate };
+                            currentUser.gender = event.target.value;
+                            setCurrentUserUpdate(currentUser);
+                          }}
                           name="radio-buttons"
                           label="Male"
                           size="md"
@@ -377,7 +395,12 @@ const Employee = () => {
                         />{" "}
                         <br />
                         <Radio
-                          value="Female"
+                          value="female"
+                          onClick={(event) => {
+                            let currentUser = { ...currentUserUpdate };
+                            currentUser.gender = event.target.value;
+                            setCurrentUserUpdate(currentUser);
+                          }}
                           name="radio-buttons"
                           label="Female"
                           size="md"
@@ -392,7 +415,12 @@ const Employee = () => {
                       <Input
                         size="sm"
                         startDecorator={<AccountCircle />}
-                        placeholder="Input Last Name"
+                        onChange={(event) => {
+                          let currentUser = { ...currentUserUpdate };
+                          currentUser.lastName = event.target.value;
+                          setCurrentUserUpdate(currentUser);
+                        }}
+                        value={currentUserUpdate.lastName}
                       />
                     </FormControl>
                   </Grid>
@@ -404,7 +432,12 @@ const Employee = () => {
                     size="sm"
                     startDecorator={<AlternateEmail />}
                     type="email"
-                    placeholder="Input Email"
+                    onChange={(event) => {
+                      let currentUser = { ...currentUserUpdate };
+                      currentUser.email = event.target.value;
+                      setCurrentUserUpdate(currentUser);
+                    }}
+                    value={currentUserUpdate.email}
                   />
                 </FormControl>
 
@@ -413,33 +446,55 @@ const Employee = () => {
                   <Input
                     size="sm"
                     startDecorator={<ContactPage />}
-                    type="number"
-                    placeholder="Input Mobile Number"
+                    type="text"
+                    onChange={(event) => {
+                      let currentUser = { ...currentUserUpdate };
+                      currentUser.mobileNumber = event.target.value;
+                      setCurrentUserUpdate(currentUser);
+                    }}
+                    value={currentUserUpdate.mobileNumber}
                   />
                 </FormControl>
 
                 <FormControl sx={{ padding: "5px" }}>
                   <FormLabel> Department </FormLabel>
-                  <Input size="sm" placeholder="Input Department" />
+                  <Input
+                    size="sm"
+                    onChange={(event) => {
+                      let currentUser = { ...currentUserUpdate };
+                      currentUser.department = event.target.value;
+                      setCurrentUserUpdate(currentUser);
+                    }}
+                    value={currentUserUpdate.department}
+                  />
                 </FormControl>
 
                 <FormControl sx={{ padding: "5px" }}>
                   <FormLabel> Position </FormLabel>
-                  <Input size="sm" placeholder="Input Position" />
+                  <Input
+                    size="sm"
+                    onChange={(event) => {
+                      let currentUser = { ...currentUserUpdate };
+                      currentUser.position = event.target.value;
+                      setCurrentUserUpdate(currentUser);
+                    }}
+                    value={currentUserUpdate.position}
+                  />
                 </FormControl>
                 <Button
-                  onClick={() => {
-                    getUserById();
-                  }}
                   variant="soft"
                   sx={{
                     float: "right",
                     backgroundColor: "#C5D8A4",
                     color: "#534340",
                   }}
+                  onClick={() => {
+                    updateUser(currentUserUpdate);
+                    setModalUpdateOpen(!modalUpdateOpen);
+                    window.location.reload();
+                  }}
                 >
-                  {" "}
-                  Update{" "}
+                  Update
                 </Button>
               </form>
             </ModalDialog>
@@ -473,6 +528,7 @@ const Employee = () => {
                     backgroundColor: "#C5D8A4",
                     color: "#534340",
                   }}
+                  onClick={() => deleteUser(getCurrentId)}
                 >
                   {" "}
                   Delete{" "}
@@ -482,12 +538,14 @@ const Employee = () => {
           </Modal>
           <DataGrid
             getRowId={(userDetails) => userDetails.employeeId}
-            onRowClick={(userDetails) => {
-              setGetCurrentId(userDetails.employeeId);
-            }}
             rows={userDetails}
             columns={columns}
-            onCellSele
+            onRowClick={(params) => {
+              setGetCurrentId(params.row.employeeId);
+              getUserById(params.row.employeeId).then((response) => {
+                setCurrentUserUpdate(response.data);
+              });
+            }}
             editMode="cell"
             autoHeight="true"
             density="comfortable"

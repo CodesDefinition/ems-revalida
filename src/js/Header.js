@@ -22,14 +22,14 @@ function Appbar() {
     setTab(value);
     if (value == 0) {
       console.log("Going home");
-      navigate("/user/homepage");
+      navigate("/employee/homepage");
     } else if (value == 1) {
       console.log("Going about");
       navigate("/about");
     } else if (value == 2) {
       console.log(`logging out ${localStorage.getItem("USER")}`);
       destroySession();
-      window.location.reload();
+      window.location.href = "http://localhost:8000";
     }
   };
   return (
