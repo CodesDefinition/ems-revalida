@@ -15,7 +15,6 @@ import {
 import { Form, Field, Formik, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { ID, updateUser, getUserById } from "../services/UsersService";
-import { Style } from "@mui/icons-material";
 import InputAdornment from "@mui/material/InputAdornment";
 function Dashboard() {
   // variables for styles
@@ -95,11 +94,12 @@ function Dashboard() {
     gender: "",
     positionId: "",
   });
+  const [userId, setUserId] = useState(-1);
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [mobileNumber, setMobileNumber] = useState(0);
   // for Formik
   const phoneRegExp = "[0-9]{10}";
   const initialVal = {
@@ -126,21 +126,23 @@ function Dashboard() {
   });
   // functions
   const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
+  const refresh = () => {};
   const onSubmit = (values, props) => {
-    alert(JSON.stringify(values, null, 2));
+    // alert(JSON.stringify(values, null, 2));
     console.log(values);
     let tempUser = { ...currentUser };
-    tempUser.firstName = values.firstName;
-    tempUser.middleName = values.middleName;
-    tempUser.lastName = values.lastName;
-    tempUser.email = values.email;
-    tempUser.mobileNumber = values.mobNum;
-    updateUser(tempUser);
+    currentUser.firstName = values.firstName;
+    currentUser.middleName = values.middleName;
+    currentUser.lastName = values.lastName;
+    currentUser.email = values.email;
+    currentUser.mobileNumber = values.mobNum;
+    updateUser({ ...tempUser });
     setModalUpdateOpen(!modalUpdateOpen);
   };
   useEffect(() => {
     getUserById(localStorage.getItem(ID)).then((response) => {
       setCurrentUser(response.data);
+      setUserId(response.data.id);
       setFirstName(response.data.firstName);
       setMiddleName(response.data.middleName);
       setLastName(response.data.lastName);
@@ -149,14 +151,6 @@ function Dashboard() {
     });
   }, []);
 
-  // const handleSubmit = () => {
-  //   currentUser.firstName = firstName;
-  //   (currentUser.middleName = middleName), (currentUser.lastName = lastName);
-  //   currentUser.email = email;
-  //   currentUser.mobileNumber = mobileNumber;
-  //   updateUser(currentUser);
-  //   setModalUpdateOpen(!modalUpdateOpen);
-  // };
   return (
     <Box
       sx={{
@@ -476,7 +470,7 @@ function Dashboard() {
               mb: "1rem",
             }}
           >
-            {`${currentUser.lastName}, ${currentUser.firstName}`}
+            {`${lastName}, ${firstName}`}
           </Typography>
           <Grid container>
             <Grid item sx={{ width: "48%", mr: "2%" }}>

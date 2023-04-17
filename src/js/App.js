@@ -6,6 +6,7 @@ import About from "./About";
 import Employee from "./admin/EmployeeList";
 import Dashboard from "./employee/Dashboard";
 import { USERTYPE } from "./services/UsersService";
+import ChangePass from "./employee/ChangePass";
 const App = () => {
   const adminHompage = "/admin/homepage";
   const employeeHompage = "/admin/homepage";
@@ -22,7 +23,8 @@ const App = () => {
     <React.Fragment>
       <div className="App">
         <Appbar />
-        <br /><br />
+        <br />
+        <br />
         <Routes>
           {/* Admin routing */}
           <Route path="/admin/homepage" element={<Homepage />} />
@@ -30,6 +32,7 @@ const App = () => {
           {/* employee routing */}
           <Route path="/employee/homepage" element={<Dashboard />} />
           <Route path="/employee/about" element={<About />} />
+          <Route path="/employee/changepass" element={<ChangePass />} />
         </Routes>
       </div>
     </React.Fragment>

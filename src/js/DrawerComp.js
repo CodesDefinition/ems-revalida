@@ -9,6 +9,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
+import { Menu } from "@mui/icons-material";
 const PAGES = ["Home", "About", "Logout"];
 
 function DrawerComp() {
@@ -47,7 +48,9 @@ function DrawerComp() {
         sx={{ color: "#bb9981" }}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <Icon>---</Icon>
+        <Icon>
+          <Menu />
+        </Icon>
       </IconButton>
     </React.Fragment>
   );
